@@ -17,37 +17,13 @@
 
 package circuit
 
-import (
-	"regexp"
-	"strings"
-)
-
 const (
 	regex       = "(Provider|Consumer)\\.(.*)"
 	regexSource = "\\.(.+)\\.(Provider|Consumer)\\.(.*)"
 )
 
 // GetMetricsName get only metrics name from cmd name
-func GetMetricsName(cmd string) (source string) {
-	regNormal := regexp.MustCompile(regex)
-	regSource := regexp.MustCompile(regexSource)
-	var role string
-
-	if regNormal.MatchString(cmd) {
-		s := regNormal.FindStringSubmatch(cmd)
-		if len(s) > 2 {
-			role = s[1]
-		}
-	}
-
-	if regSource.MatchString(cmd) {
-		s := regNormal.FindStringSubmatch(cmd)
-		if len(s) > 3 {
-			role = s[2]
-		}
-	}
-	return role + "." + GetEventType(cmd)
-}
+func GetMetricsName(cmd string) (source string) { _ = "STUB: not implemented"; return "" }
 
 // ParseCircuitCMD return metrics related infos
 // example Consumer.ErrServer.rest./sayhimessage.rejects
@@ -55,52 +31,16 @@ func GetMetricsName(cmd string) (source string) {
 // second is ErrServer
 // 3th and 4th is schema and operation
 func ParseCircuitCMD(cmd string) (source string, target string, schema string, op string) {
-	regNormal := regexp.MustCompile(regex)
-	regSource := regexp.MustCompile(regexSource)
-	var raw, role string
-
-	if regNormal.MatchString(cmd) {
-		s := regNormal.FindStringSubmatch(cmd)
-		if len(s) > 2 {
-			role = s[1]
-			raw = s[2]
-		}
-	}
-
-	if regSource.MatchString(cmd) {
-		s := regNormal.FindStringSubmatch(cmd)
-		if len(s) > 3 {
-			role = s[2]
-			raw = s[3]
-		}
-	}
-
-	sn, scID, opID, metrics := ExtractServiceSchemaOperationMetrics(raw)
-
-	return role + "." + metrics, sn, scID, opID
+	_ = "STUB: not implemented"
+	return "", "", "", ""
 }
 
 // ExtractServiceSchemaOperationMetrics parse service,schema and operation
 // key example Microservice.SchemaID.OperationId.metrics
 func ExtractServiceSchemaOperationMetrics(raw string) (target, schemaID, operation, metrics string) {
-	metrics = GetEventType(raw)
-	tokens := strings.Split(raw, ".")
-	switch len(tokens) {
-	case 2:
-		target = tokens[0]
-	case 3:
-		target = tokens[0]
-		schemaID = tokens[1]
-	case 4:
-		target = tokens[0]
-		schemaID = tokens[1]
-		operation = tokens[2]
-	}
-	return
+	_ = "STUB: not implemented"
+	return "", "", "", ""
 }
 
 // GetEventType get metrics suffix
-func GetEventType(cmdName string) string {
-	tokens := strings.Split(cmdName, ".")
-	return tokens[len(tokens)-1]
-}
+func GetEventType(cmdName string) string { _ = "STUB: not implemented"; return "" }

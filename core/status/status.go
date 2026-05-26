@@ -44,16 +44,10 @@ func init() {
 
 // Register allows you custom a status map for a protocol plugin
 func Register(protocol string, status map[string]int) {
-	//TODO map key list check
-	protocolStatus[protocol] = status
-
+	_ = "STUB: not implemented"
+	// TODO map key list check
+	return
 }
 
 // Status return a status, if protocol do not has dedicated status map will use http status as standard map
-func Status(protocol, statusKey string) int {
-	s, ok := protocolStatus[protocol]
-	if !ok {
-		return defaultStatus[statusKey]
-	}
-	return s[statusKey]
-}
+func Status(protocol, statusKey string) int { _ = "STUB: not implemented"; return 0 }

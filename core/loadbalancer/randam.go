@@ -4,7 +4,6 @@ import (
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
 	"github.com/go-chassis/go-chassis/v2/core/registry"
 
-	"math/rand"
 	"sync"
 )
 
@@ -15,23 +14,21 @@ type RandomStrategy struct {
 }
 
 func newRandomStrategy() Strategy {
-	return &RandomStrategy{}
+	_ = "STUB: not implemented"
+	return *
+
+	// ReceiveData receive data
+	new(Strategy)
 }
 
-// ReceiveData receive data
 func (r *RandomStrategy) ReceiveData(inv *invocation.Invocation, instances []*registry.MicroServiceInstance, serviceName string) {
-	r.instances = instances
+	_ = "STUB: not implemented"
+	return
+
+	// Pick return instance
 }
 
-// Pick return instance
 func (r *RandomStrategy) Pick() (*registry.MicroServiceInstance, error) {
-	if len(r.instances) == 0 {
-		return nil, ErrNoneAvailableInstance
-	}
-
-	r.mtx.Lock()
-	k := rand.Int() % len(r.instances)
-	r.mtx.Unlock()
-	return r.instances[k], nil
-
+	_ = "STUB: not implemented"
+	return nil, nil
 }

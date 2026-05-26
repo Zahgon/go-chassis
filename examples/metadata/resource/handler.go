@@ -11,19 +11,17 @@ type MetadataHandler struct {
 
 // Handle
 func (h *MetadataHandler) Handle(chain *handler.Chain, inv *invocation.Invocation, cb invocation.ResponseCallBack) {
-	inv.SetMetadata("auth", "user1")
-	inv.SetHeader("X-Auth", "user2")
-	chain.Next(inv, cb)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Name
-func (h *MetadataHandler) Name() string {
-	return "test"
-}
-func newMetadataHandler() handler.Handler {
-	//call next chain
+func (h *MetadataHandler) Name() string { _ = "STUB: not implemented"; return "" }
 
-	return &MetadataHandler{}
+func newMetadataHandler() handler.Handler {
+	_ = "STUB: not implemented"
+	// call next chain
+	return *new(handler.Handler)
 }
 
 func init() {

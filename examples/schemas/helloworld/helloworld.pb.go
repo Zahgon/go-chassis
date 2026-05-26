@@ -17,7 +17,6 @@ package helloworld
 
 import (
 	"fmt"
-	"github.com/golang/protobuf/proto"
 	"math"
 )
 
@@ -30,34 +29,24 @@ type HelloRequest struct {
 	Name string
 }
 
-func (m *HelloRequest) Reset()                    { *m = HelloRequest{} }
-func (m *HelloRequest) String() string            { return proto.CompactTextString(m) }
-func (*HelloRequest) ProtoMessage()               {}
-func (*HelloRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (m *HelloRequest) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *HelloRequest) String() string            { _ = "STUB: not implemented"; return "" }
+func (*HelloRequest) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*HelloRequest) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *HelloRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
+func (m *HelloRequest) GetName() string { _ = "STUB: not implemented"; return "" }
 
 // The response message containing the greetings
 type HelloReply struct {
 	Message string
 }
 
-func (m *HelloReply) Reset()                    { *m = HelloReply{} }
-func (m *HelloReply) String() string            { return proto.CompactTextString(m) }
-func (*HelloReply) ProtoMessage()               {}
-func (*HelloReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+func (m *HelloReply) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *HelloReply) String() string            { _ = "STUB: not implemented"; return "" }
+func (*HelloReply) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*HelloReply) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *HelloReply) GetMessage() string {
-	if m != nil {
-		return m.Message
-	}
-	return ""
-}
+func (m *HelloReply) GetMessage() string { _ = "STUB: not implemented"; return "" }
 
 var fileDescriptor0 = []byte{
 	// 142 bytes of a gzipped FileDescriptorProto

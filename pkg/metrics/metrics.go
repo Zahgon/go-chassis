@@ -1,10 +1,9 @@
 package metrics
 
 import (
-	"fmt"
-	"github.com/go-chassis/go-archaius"
-	"github.com/prometheus/client_golang/prometheus"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 var registries = make(map[string]NewRegistry)
@@ -37,65 +36,60 @@ type Registry interface {
 var defaultRegistry Registry
 
 // CreateGauge init a new gauge type
-func CreateGauge(opts GaugeOpts) error {
-	return defaultRegistry.CreateGauge(opts)
-}
+func CreateGauge(opts GaugeOpts) error { _ = "STUB: not implemented"; return nil }
 
 // CreateCounter init a new counter type
-func CreateCounter(opts CounterOpts) error {
-	return defaultRegistry.CreateCounter(opts)
-}
+func CreateCounter(opts CounterOpts) error { _ = "STUB: not implemented"; return nil }
 
 // CreateSummary init a new summary type
-func CreateSummary(opts SummaryOpts) error {
-	return defaultRegistry.CreateSummary(opts)
-}
+func CreateSummary(opts SummaryOpts) error { _ = "STUB: not implemented"; return nil }
 
 // CreateHistogram init a new summary type
-func CreateHistogram(opts HistogramOpts) error {
-	return defaultRegistry.CreateHistogram(opts)
-}
+func CreateHistogram(opts HistogramOpts) error { _ = "STUB: not implemented"; return nil }
 
 // GaugeSet set a new value to a collector
 func GaugeSet(name string, val float64, labels map[string]string) error {
-	return defaultRegistry.GaugeSet(name, val, labels)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // GaugeAdd set a new value to a collector
 func GaugeAdd(name string, val float64, labels map[string]string) error {
-	return defaultRegistry.GaugeAdd(name, val, labels)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CounterAdd increase value of a collector
 func CounterAdd(name string, val float64, labels map[string]string) error {
-	return defaultRegistry.CounterAdd(name, val, labels)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SummaryObserve gives a value to summary collector
 func SummaryObserve(name string, val float64, labels map[string]string) error {
-	return defaultRegistry.SummaryObserve(name, val, labels)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // HistogramObserve gives a value to histogram collector
 func HistogramObserve(name string, val float64, labels map[string]string) error {
-	return defaultRegistry.HistogramObserve(name, val, labels)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Reset clear collector metrics
-func Reset(name string) error {
-	return defaultRegistry.Reset(name)
-}
+func Reset(name string) error { _ = "STUB: not implemented"; return nil }
 
-func GaugeValue(name string, labels map[string]string) float64 {
-	return defaultRegistry.GaugeValue(name, labels)
-}
+func GaugeValue(name string, labels map[string]string) float64 { _ = "STUB: not implemented"; return 0 }
 
 func CounterValue(name string, labels map[string]string) float64 {
-	return defaultRegistry.CounterValue(name, labels)
+	_ = "STUB: not implemented"
+	return 0
 }
 
 func SummaryValue(name string, labels map[string]string) (uint64, float64) {
-	return defaultRegistry.SummaryValue(name, labels)
+	_ = "STUB: not implemented"
+	return 0, 0
 }
 
 // CounterOpts is options to create a counter options
@@ -140,26 +134,14 @@ type Options struct {
 }
 
 // InstallPlugin install metrics registry
-func InstallPlugin(name string, f NewRegistry) {
-	registries[name] = f
-}
+func InstallPlugin(name string, f NewRegistry) { _ = "STUB: not implemented"; return }
 
 // Init load the metrics plugin and initialize it
 func Init() error {
-	//TODO name should be configurable
-	name := "prometheus"
-	f, ok := registries[name]
-	if !ok {
-		return fmt.Errorf("can not init metrics registry [%s]", name)
-	}
-	defaultRegistry = f(Options{
-		FlushInterval:          10 * time.Second,
-		EnableGoRuntimeMetrics: archaius.GetBool("servicecomb.metrics.enableGoRuntimeMetrics", true),
-	})
+	_ = "STUB: not implemented"
+	// TODO name should be configurable
 	return nil
 }
 
 // GetSystemPrometheusRegistry return prometheus registry which go chassis use
-func GetSystemPrometheusRegistry() *prometheus.Registry {
-	return prometheusRegistry
-}
+func GetSystemPrometheusRegistry() *prometheus.Registry { _ = "STUB: not implemented"; return nil }

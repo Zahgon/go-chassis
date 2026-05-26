@@ -1,11 +1,5 @@
 package utiltags
 
-import (
-	"sort"
-
-	"github.com/go-chassis/go-chassis/v2/core/common"
-)
-
 // Tags set tags and label
 type Tags struct {
 	KV    map[string]string
@@ -13,48 +7,25 @@ type Tags struct {
 }
 
 // NewDefaultTag returns Tags with version and appID
-func NewDefaultTag(version, appID string) Tags {
-	return Tags{
-		KV:    map[string]string{common.BuildinTagVersion: version, common.BuildinTagApp: appID},
-		Label: common.BuildinTagApp + ":" + appID + "|" + common.BuildinTagVersion + ":" + version,
-	}
-}
+func NewDefaultTag(version, appID string) Tags { _ = "STUB: not implemented"; return *new(Tags) }
 
 // String returns label of tags
-func (t Tags) String() string { return t.Label }
+func (t Tags) String() string {
+	_ = "STUB: not implemented"
 
-// AppID returns buildinTagApp of tags
-func (t Tags) AppID() string { return t.KV[common.BuildinTagApp] }
+	// AppID returns buildinTagApp of tags
+	return ""
+}
+
+func (t Tags) AppID() string { _ = "STUB: not implemented"; return "" }
 
 // Version returns buildinTagVersion of tags
-func (t Tags) Version() string { return t.KV[common.BuildinTagVersion] }
+func (t Tags) Version() string { _ = "STUB: not implemented"; return "" }
 
 // IsSubsetOf returns if tags is labels
-func (t Tags) IsSubsetOf(labels map[string]string) bool {
-	for k, v := range t.KV {
-		// TODO: remove buildinTag version
-		if k == common.BuildinTagVersion && v == common.LatestVersion {
-			continue
-		}
-		if labels[k] != v {
-			return false
-		}
-	}
-	return true
-}
+func (t Tags) IsSubsetOf(labels map[string]string) bool { _ = "STUB: not implemented"; return false }
+
+// TODO: remove buildinTag version
 
 // LabelOfTags returns tags as string
-func LabelOfTags(t map[string]string) (ret string) {
-	ss := make([]string, 0, len(t))
-	for k := range t {
-		ss = append(ss, k)
-	}
-	sort.Strings(ss)
-	for i, s := range ss {
-		ret += s + ":" + t[s]
-		if i != len(ss)-1 {
-			ret += "|"
-		}
-	}
-	return
-}
+func LabelOfTags(t map[string]string) (ret string) { _ = "STUB: not implemented"; return "" }

@@ -17,21 +17,5 @@
 
 package tool
 
-import (
-	"fmt"
-	"runtime"
-)
-
 // GetStackTrace get stack trace
-func GetStackTrace(skip int) string {
-	var stacktrace string
-	for i := skip; ; i++ {
-		_, f, l, got := runtime.Caller(i)
-		if !got {
-			break
-		}
-		stacktrace += fmt.Sprintf("%s:%d\n", f, l)
-		fmt.Println(stacktrace)
-	}
-	return stacktrace
-}
+func GetStackTrace(skip int) string { _ = "STUB: not implemented"; return "" }

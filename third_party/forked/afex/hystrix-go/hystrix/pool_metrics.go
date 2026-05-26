@@ -19,34 +19,8 @@ type poolMetricsUpdate struct {
 	activeCount int
 }
 
-func newPoolMetrics(name string) *poolMetrics {
-	m := &poolMetrics{}
-	m.Name = name
-	m.Updates = make(chan poolMetricsUpdate)
-	m.Mutex = &sync.RWMutex{}
+func newPoolMetrics(name string) *poolMetrics { _ = "STUB: not implemented"; return nil }
 
-	m.Reset()
+func (m *poolMetrics) Reset() { _ = "STUB: not implemented"; return }
 
-	go m.Monitor()
-
-	return m
-}
-
-func (m *poolMetrics) Reset() {
-	m.Mutex.Lock()
-	defer m.Mutex.Unlock()
-
-	m.MaxActiveRequests = rolling.NewNumber()
-	m.Executed = rolling.NewNumber()
-}
-
-func (m *poolMetrics) Monitor() {
-	for u := range m.Updates {
-		m.Mutex.RLock()
-
-		m.Executed.Increment(1)
-		m.MaxActiveRequests.UpdateMax(float64(u.activeCount))
-
-		m.Mutex.RUnlock()
-	}
-}
+func (m *poolMetrics) Monitor() { _ = "STUB: not implemented"; return }

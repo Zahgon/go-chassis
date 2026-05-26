@@ -14,17 +14,9 @@ package reporter
 // Forked from github.com/deathowl
 // Some parts of this file have been modified to make it functional in this package
 import (
-	"github.com/go-chassis/go-archaius"
-	circuit2 "github.com/go-chassis/go-chassis/v2/middleware/circuit"
-
-	"strings"
 	"sync"
 	"time"
 
-	"fmt"
-
-	m "github.com/go-chassis/go-chassis/v2/pkg/metrics"
-	"github.com/go-chassis/go-chassis/v2/pkg/runtime"
 	"github.com/go-chassis/go-chassis/v2/third_party/forked/afex/hystrix-go/hystrix"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -58,138 +50,28 @@ var desc = map[string]string{
 }
 
 // GetDesc retrieve metric doc
-func GetDesc(name string) string {
-	h := desc[name]
-	if h != "" {
-		return h
-	}
-	return name
-}
+func GetDesc(name string) string { _ = "STUB: not implemented"; return "" }
 
 var FlushInterval time.Duration //interval to update prom metrics
 var gauges map[string]prometheus.Gauge
 var gaugeVecs map[string]*prometheus.GaugeVec
 
 // GetPrometheusSinker get prometheus configurations
-func GetPrometheusSinker() {
-	onceInit.Do(func() {
-		t, err := time.ParseDuration(archaius.GetString("servicecomb.metrics.flushInterval", "10s"))
-		if err != nil {
-			t = time.Second * 10
-		}
-		FlushInterval = t
-		gauges = make(map[string]prometheus.Gauge)
-		gaugeVecs = make(map[string]*prometheus.GaugeVec)
-	})
-}
+func GetPrometheusSinker() { _ = "STUB: not implemented"; return }
 
-func flattenKey(key string) string {
-	key = strings.Replace(key, " ", "_", -1)
-	key = strings.Replace(key, ".", "_", -1)
-	key = strings.Replace(key, "-", "_", -1)
-	key = strings.Replace(key, "=", "_", -1)
-	return key
-}
+func flattenKey(key string) string { _ = "STUB: not implemented"; return "" }
 
 func gaugeVecFromNameAndValue(name string, val float64, labels prometheus.Labels) {
-	var labelNames []string
-	for labelName := range labels {
-		labelNames = append(labelNames, labelName)
-	}
-	gVec, ok := gaugeVecs[name]
-	if !ok {
-		gVec = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-			Name: flattenKey(name),
-			Help: GetDesc(name),
-		}, labelNames)
-		m.GetSystemPrometheusRegistry().MustRegister(gVec)
-		gaugeVecs[name] = gVec
-	}
-	gVec.With(labels).Set(val)
+	_ = "STUB: not implemented"
+	return
 }
 
 // ReportMetricsToPrometheus report metrics to prometheus registry, you can use GetSystemPrometheusRegistry to get prometheus registry. by default chassis will report system metrics to prometheus
 func ReportMetricsToPrometheus(cb *hystrix.CircuitBreaker) error {
-	GetPrometheusSinker()
-
-	now := time.Now()
-	attemptsName := cb.Name + ".attempts"
-	errorsName := cb.Name + ".errors"
-	successesName := cb.Name + ".successes"
-	failuresName := cb.Name + ".failures"
-	rejectsName := cb.Name + ".rejects"
-	shortCircuitsName := cb.Name + ".shortCircuits"
-	timeoutsName := cb.Name + ".timeouts"
-	fallbackSuccessesName := cb.Name + ".fallbackSuccesses"
-	fallbackFailuresName := cb.Name + ".fallbackFailures"
-	totalDurationName := cb.Name + ".totalDuration"
-	runDurationName := cb.Name + ".runDuration"
-	_, sn, operationID, schemaID := circuit2.ParseCircuitCMD(errorsName)
-	promLabels := prometheus.Labels{"hostname": runtime.HostName, "self": runtime.ServiceName,
-		"target": sn, "appID": runtime.App, "version": runtime.Version,
-		"schemaID": schemaID, "operationID": operationID}
-	for k, v := range runtime.MD {
-		promLabels[k] = v
-	}
-	metricName := circuit2.GetMetricsName(errorsName)
-	errCount := cb.Metrics.DefaultCollector().Errors().Sum(now)
-	gaugeVecFromNameAndValue(metricName, errCount, promLabels)
-
-	attemptsCount := cb.Metrics.DefaultCollector().NumRequests().Sum(now)
-	metricName = circuit2.GetMetricsName(attemptsName)
-	gaugeVecFromNameAndValue(metricName, attemptsCount, promLabels)
-
-	successesCount := cb.Metrics.DefaultCollector().Successes().Sum(now)
-	metricName = circuit2.GetMetricsName(successesName)
-	gaugeVecFromNameAndValue(metricName, successesCount, promLabels)
-
-	failureCount := cb.Metrics.DefaultCollector().Failures().Sum(now)
-	metricName = circuit2.GetMetricsName(failuresName)
-	gaugeVecFromNameAndValue(metricName, failureCount, promLabels)
-
-	rejectCount := cb.Metrics.DefaultCollector().Rejects().Sum(now)
-	metricName = circuit2.GetMetricsName(rejectsName)
-	gaugeVecFromNameAndValue(metricName, rejectCount, promLabels)
-
-	scCount := cb.Metrics.DefaultCollector().ShortCircuits().Sum(now)
-	metricName = circuit2.GetMetricsName(shortCircuitsName)
-	gaugeVecFromNameAndValue(metricName, scCount, promLabels)
-
-	timeoutCount := cb.Metrics.DefaultCollector().Timeouts().Sum(now)
-	metricName = circuit2.GetMetricsName(timeoutsName)
-	gaugeVecFromNameAndValue(metricName, timeoutCount, promLabels)
-
-	fbsCount := cb.Metrics.DefaultCollector().FallbackSuccesses().Sum(now)
-	metricName = circuit2.GetMetricsName(fallbackSuccessesName)
-	gaugeVecFromNameAndValue(metricName, fbsCount, promLabels)
-
-	fbfCount := cb.Metrics.DefaultCollector().FallbackFailures().Sum(now)
-	metricName = circuit2.GetMetricsName(fallbackFailuresName)
-	gaugeVecFromNameAndValue(metricName, fbfCount, promLabels)
-
-	latencyTotalMean := cb.Metrics.DefaultCollector().TotalDuration().Mean()
-	metricName = circuit2.GetMetricsName(totalDurationName)
-	gaugeVecFromNameAndValue(fmt.Sprintf("%s.%s", metricName, "mean"),
-		float64(latencyTotalMean), promLabels)
-
-	runDuration := cb.Metrics.DefaultCollector().RunDuration()
-	metricName = circuit2.GetMetricsName(runDurationName)
-	gaugeVecFromNameAndValue(fmt.Sprintf("%s.%s", metricName, "mean"),
-		float64(runDuration.Mean()), promLabels)
-	promLabels["quantile"] = "0.05"
-	gaugeVecFromNameAndValue(metricName, float64(runDuration.Percentile(5)), promLabels)
-	promLabels["quantile"] = "0.25"
-	gaugeVecFromNameAndValue(metricName, float64(runDuration.Percentile(25)), promLabels)
-	promLabels["quantile"] = "0.5"
-	gaugeVecFromNameAndValue(metricName, float64(runDuration.Percentile(5)), promLabels)
-	promLabels["quantile"] = "0.75"
-	gaugeVecFromNameAndValue(metricName, float64(runDuration.Percentile(75)), promLabels)
-	promLabels["quantile"] = "0.90"
-	gaugeVecFromNameAndValue(metricName, float64(runDuration.Percentile(90)), promLabels)
-	promLabels["quantile"] = "0.99"
-	gaugeVecFromNameAndValue(metricName, float64(runDuration.Percentile(99)), promLabels)
+	_ = "STUB: not implemented"
 	return nil
 }
+
 func init() {
 	hystrix.InstallReporter("Prometheus", ReportMetricsToPrometheus)
 }

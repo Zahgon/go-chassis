@@ -1,11 +1,5 @@
 package provider
 
-import (
-	"fmt"
-
-	"github.com/go-chassis/openlog"
-)
-
 // plugin name and schemas map
 var providerPlugins = make(map[string]func(string) Provider)
 
@@ -16,67 +10,41 @@ var providers = make(map[string]Provider)
 
 // InstallProviderPlugin install provider plugin
 func InstallProviderPlugin(pluginName string, newFunc func(string) Provider) {
-	openlog.Info("Install Provider Plugin, name: " + pluginName)
-	providerPlugins[pluginName] = newFunc
+	_ = "STUB: not implemented"
+	return
 }
 
 // todo: return error.
 
 // RegisterProvider register provider
 func RegisterProvider(pluginName string, microserviceName string) Provider {
-	pFunc, exist := providerPlugins[pluginName]
-	if !exist {
-		openlog.Error(fmt.Sprintf("provider type %s is not exist.", pluginName))
-		return nil
-	}
-	p := pFunc(microserviceName)
-	openlog.Debug(fmt.Sprintf("registered provider for service [%s]", microserviceName))
-	RegisterCustomProvider(microserviceName, p)
-	return p
-
+	_ = "STUB: not implemented"
+	return *new(Provider)
 }
 
 // RegisterCustomProvider register customer provider
-func RegisterCustomProvider(microserviceName string, p Provider) {
-	if providers[microserviceName] != nil {
-		openlog.Warn("Can not replace Provider,since it is not nil")
-		return
-	}
-	providers[microserviceName] = p
-}
+func RegisterCustomProvider(microserviceName string, p Provider) { _ = "STUB: not implemented"; return }
 
 // GetProvider get provider
 func GetProvider(microserviceName string) (Provider, error) {
-	p, exist := providers[microserviceName]
-	if !exist {
-		return nil, fmt.Errorf("service [%s] doesn't have provider", microserviceName)
-	}
-	return p, nil
+	_ = "STUB: not implemented"
+	return *new(Provider), nil
 }
 
 // RegisterSchemaWithName register schema with name
 func RegisterSchemaWithName(microserviceName string, schemaID string, schema interface{}) error {
-	p, exist := providers[microserviceName]
-	if !exist {
-		return fmt.Errorf("service: %s do not exist", microserviceName)
-	}
-	return p.RegisterName(schemaID, schema)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // RegisterSchema register schema
 func RegisterSchema(microserviceName string, schema interface{}) (string, error) {
-	p := providers[microserviceName]
-	if p == nil {
-		return "", fmt.Errorf("[%s] Provider is not exist ", microserviceName)
-	}
-	return p.Register(schema)
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // GetOperation get operation
 func GetOperation(microserviceName string, schemaID string, operationID string) (Operation, error) {
-	p, ok := providers[microserviceName]
-	if !ok {
-		return nil, fmt.Errorf("microservice [%s] doesn't exist", microserviceName)
-	}
-	return p.GetOperation(schemaID, operationID)
+	_ = "STUB: not implemented"
+	return *new(Operation), nil
 }

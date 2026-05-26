@@ -1,9 +1,5 @@
 package registry
 
-import (
-	"github.com/go-chassis/go-chassis/v2/core/common"
-)
-
 // MicroService struct having full info about micro-service
 type MicroService struct {
 	ServiceID   string
@@ -49,34 +45,25 @@ type MicroServiceInstance struct {
 	DataCenterInfo  *DataCenterInfo      `json:"dataCenterInfo"`
 }
 
-func (m *MicroServiceInstance) AppID() string      { return m.Metadata[common.BuildinTagApp] }
-func (m *MicroServiceInstance) GetVersion() string { return m.Metadata[common.BuildinTagVersion] }
+func (m *MicroServiceInstance) AppID() string      { _ = "STUB: not implemented"; return "" }
+func (m *MicroServiceInstance) GetVersion() string { _ = "STUB: not implemented"; return "" }
 
 // Has return whether microservice has tags
 func (m *MicroServiceInstance) Has(tags map[string]string) bool {
-	for k, v := range tags {
-		if mt, ok := m.Metadata[k]; !ok || mt != v {
-			return false
-		}
-	}
-	return true
+	_ = "STUB: not implemented"
+	return false
 }
 
 // WithAppID add app tag for microservice instance
 func (m *MicroServiceInstance) WithAppID(v string) *MicroServiceInstance {
-	m.Metadata[common.BuildinTagApp] = v
-	return m
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Equal compares 2 instances is same or not
 func (m *MicroServiceInstance) Equal(ins *MicroServiceInstance) bool {
-	if m.InstanceID != ins.InstanceID {
-		return false
-	}
-	if m.ServiceID != ins.ServiceID {
-		return false
-	}
-	return true
+	_ = "STUB: not implemented"
+	return false
 }
 
 // MicroServiceDependency is for to represent dependencies of micro-service

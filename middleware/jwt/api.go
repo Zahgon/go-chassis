@@ -18,10 +18,10 @@
 package jwt
 
 import (
-	"github.com/go-chassis/go-chassis/v2/security/token"
-	"github.com/go-chassis/openlog"
 	"net/http"
 	"time"
+
+	"github.com/go-chassis/go-chassis/v2/security/token"
 )
 
 var auth *Auth
@@ -45,19 +45,7 @@ type Auth struct {
 
 // Use put a custom auth logic
 // then register handler to chassis
-func Use(middleware *Auth) {
-	auth = middleware
-	if auth.Expire == 0 {
-		openlog.Warn("token issued by service will not expire")
-	}
-	if auth.MustAuth == nil {
-		openlog.Info("auth all requests")
-	} else {
-		openlog.Warn("under some condition, no auth")
-	}
-}
+func Use(middleware *Auth) { _ = "STUB: not implemented"; return }
 
 // SetExpire reset the expire time
-func SetExpire(duration time.Duration) {
-	auth.Expire = duration
-}
+func SetExpire(duration time.Duration) { _ = "STUB: not implemented"; return }

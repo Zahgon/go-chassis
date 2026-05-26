@@ -18,18 +18,10 @@
 package monitoring
 
 import (
-	"fmt"
-	"time"
-
-	restful "github.com/emicklei/go-restful"
 	"github.com/go-chassis/openlog"
 
-	"github.com/go-chassis/go-chassis/v2/core/common"
 	"github.com/go-chassis/go-chassis/v2/core/handler"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
-	"github.com/go-chassis/go-chassis/v2/core/status"
-	"github.com/go-chassis/go-chassis/v2/pkg/metrics"
-	"github.com/go-chassis/go-chassis/v2/pkg/runtime"
 )
 
 // errors
@@ -49,97 +41,19 @@ type Handler struct {
 
 // Handle record metrics
 func (ph *Handler) Handle(chain *handler.Chain, i *invocation.Invocation, cb invocation.ResponseCallBack) {
-	start := time.Now()
-	path := GetUrlPath(i)
-	method, ok := i.Metadata[common.RestMethod].(string)
-	if !ok {
-		method = "default"
-	}
-	labelMap := map[string]string{
-		"service":  runtime.ServiceName,
-		"instance": runtime.InstanceID,
-		"version":  runtime.Version,
-		"app":      runtime.App,
-		"env":      runtime.Environment,
-		"API":      path,
-		"method":   method,
-	}
-	err := metrics.CounterAdd(MetricsRequest, 1, labelMap)
-	if err != nil {
-		openlog.Error("can not monitor:" + err.Error())
-		//skip monitoring
-		chain.Next(i, cb)
-		return
-	}
-
-	chain.Next(i, func(resp *invocation.Response) {
-		if resp.Status >= status.Status(i.Protocol, status.InternalServerError) {
-			m := map[string]string{
-				"service":  runtime.ServiceName,
-				"instance": runtime.InstanceID,
-				"version":  runtime.Version,
-				"app":      runtime.App,
-				"env":      runtime.Environment,
-				"code":     fmt.Sprintf("%d", resp.Status),
-				"API":      path,
-				"method":   method,
-			}
-			err := metrics.CounterAdd(MetricsErrors, 1, m)
-			if err != nil {
-				openlog.Error(err.Error())
-			}
-		}
-		duration := time.Since(start)
-		err := metrics.SummaryObserve(MetricsLatency, float64(duration.Milliseconds()), labelMap)
-		if err != nil {
-			openlog.Error(err.Error())
-		}
-		cb(resp)
-	})
-
-}
-func newHandler() handler.Handler {
-	if err := metrics.CreateCounter(metrics.CounterOpts{
-		Name:   MetricsRequest,
-		Labels: labels,
-	}); err != nil {
-		openlog.Fatal(err.Error())
-	}
-	if err := metrics.CreateSummary(metrics.SummaryOpts{
-		Name:       MetricsLatency,
-		Labels:     labels,
-		Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.99: 0.001},
-	}); err != nil {
-		openlog.Fatal(err.Error())
-	}
-	if err := metrics.CreateCounter(metrics.CounterOpts{
-		Name:   MetricsErrors,
-		Labels: labels4Resp,
-	}); err != nil {
-		openlog.Fatal(err.Error())
-	}
-
-	return &Handler{}
+	_ = "STUB: not implemented"
+	return
 }
 
-func GetUrlPath(i *invocation.Invocation) string {
-	path, ok := i.Metadata[common.RestRoutePath].(string)
-	if !ok {
-		var route restful.RouteReader
-		route, ok = i.Metadata[common.RestRoutePath].(restful.RouteReader)
-		if ok {
-			path = route.Path()
-		} else {
-			path = "default"
-		}
-	}
-	return path
-}
+//skip monitoring
+
+func newHandler() handler.Handler { _ = "STUB: not implemented"; return *new(handler.Handler) }
+
+func GetUrlPath(i *invocation.Invocation) string { _ = "STUB: not implemented"; return "" }
 
 // Name returns the router string
-func (ph *Handler) Name() string {
-	return Name
-}
+func (ph *Handler) Name() string { _ = "STUB: not implemented"; return "" }
+
 func init() {
 	err := handler.RegisterHandler(Name, newHandler)
 	if err != nil {

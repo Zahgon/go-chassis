@@ -1,13 +1,13 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	scregistry "github.com/go-chassis/cari/discovery"
-	"github.com/go-chassis/sc-client"
 	"log"
 	"os"
 	"time"
+
+	scregistry "github.com/go-chassis/cari/discovery"
+	"github.com/go-chassis/sc-client"
 )
 
 func main() {
@@ -47,7 +47,4 @@ func main() {
 	}
 }
 
-func printEvent(event *sc.MicroServiceInstanceChangedEvent) {
-	content, _ := json.Marshal(event)
-	fmt.Printf("event[%v]\n", string(content))
-}
+func printEvent(event *sc.MicroServiceInstanceChangedEvent) { _ = "STUB: not implemented"; return }

@@ -4,7 +4,6 @@ import (
 	"github.com/go-chassis/go-chassis/v2"
 	rf "github.com/go-chassis/go-chassis/v2/server/restful"
 	"github.com/go-chassis/openlog"
-	"net/http"
 
 	_ "github.com/go-chassis/go-chassis/v2/middleware/ratelimiter"
 )
@@ -12,14 +11,10 @@ import (
 type Hello struct{}
 
 // Hello
-func (r *Hello) Hello(b *rf.Context) { b.Write([]byte("hi from hello")) }
+func (r *Hello) Hello(b *rf.Context) { _ = "STUB: not implemented"; return }
 
 // URLPatterns helps to respond for corresponding API calls
-func (r *Hello) URLPatterns() []rf.Route {
-	return []rf.Route{
-		{Method: http.MethodGet, Path: "/hello", ResourceFunc: r.Hello},
-	}
-}
+func (r *Hello) URLPatterns() []rf.Route { _ = "STUB: not implemented"; return nil }
 
 func main() {
 	chassis.RegisterSchema("rest", &Hello{})

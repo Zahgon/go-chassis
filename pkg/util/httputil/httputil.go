@@ -1,15 +1,10 @@
 package httputil
 
 import (
-	"bytes"
 	"errors"
-	"fmt"
-	"io"
 	"net/http"
 
-	"github.com/go-chassis/go-chassis/v2/core/common"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
-	"github.com/go-chassis/openlog"
 )
 
 // ErrInvalidReq invalid input
@@ -17,83 +12,34 @@ var ErrInvalidReq = errors.New("rest consumer call arg is not *http.Request type
 
 // SetURI sets host for the request.
 // set http(s)://{domain}/xxx
-func SetURI(req *http.Request, url string) {
-	if tempURL, err := req.URL.Parse(url); err == nil {
-		req.URL = tempURL
-	}
-}
+func SetURI(req *http.Request, url string) { _ = "STUB: not implemented"; return }
 
 // SetBody is a method used for setting body for a request
-func SetBody(req *http.Request, body []byte) {
-	req.Body = io.NopCloser(bytes.NewReader(body))
-}
+func SetBody(req *http.Request, body []byte) { _ = "STUB: not implemented"; return }
 
 // SetCookie set key value in request cookie
-func SetCookie(req *http.Request, k, v string) {
-	c := &http.Cookie{
-		Name:  k,
-		Value: v,
-	}
-	req.AddCookie(c)
-}
+func SetCookie(req *http.Request, k, v string) { _ = "STUB: not implemented"; return }
 
 // GetCookie is a method which gets cookie from a request
-func GetCookie(req *http.Request, key string) string {
-	cookie, err := req.Cookie(key)
-	if errors.Is(err, http.ErrNoCookie) {
-		return ""
-	}
-	return cookie.Value
-}
+func GetCookie(req *http.Request, key string) string { _ = "STUB: not implemented"; return "" }
 
 // SetContentType is a method used for setting content-type in a request
-func SetContentType(req *http.Request, ct string) {
-	req.Header.Set("Content-Type", ct)
-}
+func SetContentType(req *http.Request, ct string) { _ = "STUB: not implemented"; return }
 
 // GetContentType is a method used for getting content-type in a request
-func GetContentType(req *http.Request) string {
-	return req.Header.Get("Content-Type")
-}
+func GetContentType(req *http.Request) string { _ = "STUB: not implemented"; return "" }
 
 // HTTPRequest convert invocation to http request
 func HTTPRequest(inv *invocation.Invocation) (*http.Request, error) {
-	reqSend, ok := inv.Args.(*http.Request)
-	if !ok {
-		return nil, ErrInvalidReq
-	}
-	m := common.FromContext(inv.Ctx)
-	for k, v := range m {
-		reqSend.Header.Set(k, v)
-	}
-	return reqSend, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // ReadBody read body from the from the response
-func ReadBody(resp *http.Response) []byte {
-	if resp != nil && resp.Body != nil {
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			openlog.Error(fmt.Sprintf("read body failed: %s", err.Error()))
-			return nil
-		}
-		return body
-	}
-	openlog.Error("response body or response is nil")
-	return nil
-}
+func ReadBody(resp *http.Response) []byte { _ = "STUB: not implemented"; return nil }
 
 // GetRespCookie returns response Cookie.
-func GetRespCookie(resp *http.Response, key string) []byte {
-	for _, c := range resp.Cookies() {
-		if c.Name == key {
-			return []byte(c.Value)
-		}
-	}
-	return nil
-}
+func GetRespCookie(resp *http.Response, key string) []byte { _ = "STUB: not implemented"; return nil }
 
 // SetRespCookie sets the cookie.
-func SetRespCookie(resp *http.Response, cookie *http.Cookie) {
-	resp.Header.Add("Set-Cookie", cookie.String())
-}
+func SetRespCookie(resp *http.Response, cookie *http.Cookie) { _ = "STUB: not implemented"; return }

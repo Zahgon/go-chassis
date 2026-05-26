@@ -12,5 +12,6 @@ type HelloServer struct {
 
 // SayHello is a method used to reply message
 func (s *HelloServer) SayHello(ctx context.Context, in *helloworld.HelloRequest) (*helloworld.HelloReply, error) {
-	return &helloworld.HelloReply{Message: "Go Hello  " + in.Name}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }

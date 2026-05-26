@@ -2,8 +2,6 @@ package hystrix
 
 import (
 	"errors"
-	"github.com/go-chassis/openlog"
-	"time"
 )
 
 // Reporter receive a circuit breaker Metrics and sink it to monitoring system
@@ -15,32 +13,7 @@ var reporterPlugins = make(map[string]Reporter)
 
 // InstallReporter install reporter implementation
 // it receives a circuit breaker and sink its Metrics to monitoring system
-func InstallReporter(name string, reporter Reporter) error {
-	_, ok := reporterPlugins[name]
-	if ok {
-		return ErrDuplicated
-	}
-	reporterPlugins[name] = reporter
-	openlog.Info("install reporter plugin:" + name)
-	return nil
-}
+func InstallReporter(name string, reporter Reporter) error { _ = "STUB: not implemented"; return nil }
 
 // StartReporter starts reporting to reporters
-func StartReporter() {
-	tick := time.Tick(10 * time.Second)
-	for {
-		select {
-		case <-tick:
-			circuitBreakersMutex.RLock()
-			for _, cb := range circuitBreakers {
-				for k, report := range reporterPlugins {
-					openlog.Debug("report circuit metrics to " + k)
-					if err := report(cb); err != nil {
-						openlog.Warn("can not report: " + err.Error())
-					}
-				}
-			}
-			circuitBreakersMutex.RUnlock()
-		}
-	}
-}
+func StartReporter() { _ = "STUB: not implemented"; return }

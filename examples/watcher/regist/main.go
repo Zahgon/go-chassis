@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"time"
+
 	scregistry "github.com/go-chassis/cari/discovery"
 	"github.com/go-chassis/go-chassis/v2/core/common"
 	"github.com/go-chassis/sc-client"
-	"os"
-	"time"
 )
 
 func main() {

@@ -1,20 +1,8 @@
 package restful
 
 import (
-	"fmt"
-	"github.com/go-chassis/go-chassis/v2/pkg/tool"
-	"net/http"
-	"reflect"
-	"regexp"
-	"runtime"
-	"strings"
-
 	"github.com/emicklei/go-restful"
-	"github.com/go-chassis/go-chassis/v2/core/common"
-	"github.com/go-chassis/go-chassis/v2/core/handler"
-	"github.com/go-chassis/go-chassis/v2/core/invocation"
 	"github.com/go-chassis/go-chassis/v2/core/server"
-	"github.com/go-chassis/openlog"
 )
 
 // const for doc
@@ -68,147 +56,34 @@ type RouteGroup interface {
 }
 
 // GetRouteGroup is to return a router group path
-func GetRouteGroup(schema interface{}) string {
-	v, ok := schema.(RouteGroup)
-	if !ok {
-		return ""
-	}
-
-	return v.GroupPath()
-}
+func GetRouteGroup(schema interface{}) string { _ = "STUB: not implemented"; return "" }
 
 // GetRouteSpecs is to return a rest API specification of a go struct
-func GetRouteSpecs(schema interface{}) ([]Route, error) {
-	v, ok := schema.(Router)
-	if !ok {
-		return []Route{}, fmt.Errorf("can not register APIs to server: %s", reflect.TypeOf(schema).String())
-	}
-	return v.URLPatterns(), nil
-}
+func GetRouteSpecs(schema interface{}) ([]Route, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // WrapHandlerChain wrap business handler with handler chain
 func WrapHandlerChain(route *Route, schema interface{}, schemaName string, opts server.Options) (restful.RouteFunction, error) {
-	handleFunc, err := BuildRouteHandler(route, schema)
-	if err != nil {
-		return nil, err
-	}
-	restHandler := func(req *restful.Request, resp *restful.Response) {
-		defer func() {
-			if r := recover(); r != nil {
-				var stacktrace = tool.GetStackTrace(3)
-				openlog.Error("handle request panic.", openlog.WithTags(openlog.Tags{
-					"path":  route.Path,
-					"panic": r,
-					"stack": stacktrace,
-				}))
-				if err = resp.WriteErrorString(http.StatusInternalServerError, "server got a panic, plz check log."); err != nil {
-					openlog.Error("write response failed when handler panic.", openlog.WithTags(openlog.Tags{
-						"err": err.Error(),
-					}))
-				}
-			}
-		}()
-		originChain := &handler.Chain{}
-		if opts.ChainName != "" {
-			originChain, err = handler.GetChain(common.Provider, opts.ChainName)
-			if err != nil {
-				openlog.Error("handler chain init err.", openlog.WithTags(openlog.Tags{
-					"err": err.Error(),
-				}))
-				resp.AddHeader("Content-Type", "text/plain")
-				err = resp.WriteErrorString(http.StatusInternalServerError, err.Error())
-				if err != nil {
-					openlog.Error(err.Error())
-				}
-				return
-			}
-		}
-
-		inv, err := HTTPRequest2Invocation(req, schemaName, route.ResourceFuncName, resp)
-		if err != nil {
-			openlog.Error("transfer http request to invocation failed.", openlog.WithTags(openlog.Tags{
-				"err": err.Error(),
-			}))
-			return
-		}
-		bs := NewBaseServer(inv.Ctx)
-		bs.Req = req
-		bs.Resp = resp
-		//create a new chain for each resource handler
-		c := originChain.Clone()
-		c.AddHandler(newHandler(handleFunc, bs, opts))
-		//give inv.Ctx to user handlers, modules may inject headers in handler chain
-		c.Next(inv, func(ir *invocation.Response) {
-			if ir.Err != nil {
-				if resp != nil {
-					resp.WriteHeader(ir.Status)
-				}
-				return
-			}
-		})
-
-	}
-
-	openlog.Info("add route path.", openlog.WithTags(openlog.Tags{
-		"path":      route.Path,
-		"method":    route.Method,
-		"func_name": route.ResourceFuncName,
-	}))
-	return restHandler, nil
+	_ = "STUB: not implemented"
+	return *new(restful.RouteFunction), nil
 }
+
+//create a new chain for each resource handler
+
+//give inv.Ctx to user handlers, modules may inject headers in handler chain
 
 // GroupRoutePath add group route path to route
-func GroupRoutePath(route *Route, schema interface{}) {
-	groupPath := GetRouteGroup(schema)
-	if groupPath != "" {
-		route.Path = groupPath + route.Path
-	}
-}
+func GroupRoutePath(route *Route, schema interface{}) { _ = "STUB: not implemented"; return }
 
 // BuildRouteHandler build handler func from ResourceFunc or ResourceFuncName
 func BuildRouteHandler(route *Route, schema interface{}) (func(ctx *Context), error) {
-	if route.ResourceFunc != nil {
-		if route.ResourceFuncName == "" {
-			route.ResourceFuncName = getFunctionName(route.ResourceFunc)
-		}
-
-		return func(ctx *Context) {
-			route.ResourceFunc(ctx)
-		}, nil
-	}
-
-	method, exist := reflect.TypeOf(schema).MethodByName(route.ResourceFuncName)
-	if !exist {
-		openlog.Error(fmt.Sprintf("router func can not find: %s", route.ResourceFuncName))
-		return nil, fmt.Errorf("router func can not find: %s", route.ResourceFuncName)
-	}
-
-	return func(ctx *Context) {
-		method.Func.Call([]reflect.Value{reflect.ValueOf(schema), reflect.ValueOf(ctx)})
-	}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // getFunctionName get method name from func
-func getFunctionName(i interface{}) string {
-	metaName := runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
-	metaNameArr := strings.Split(metaName, ".")
-	funcName := metaNameArr[len(metaNameArr)-1]
+func getFunctionName(i interface{}) string { _ = "STUB: not implemented"; return "" }
 
-	// replace suffix "-fm" if function is bounded to struct
-	reg := regexp.MustCompile("-fm$")
-	return reg.ReplaceAllString(funcName, "")
-}
+// replace suffix "-fm" if function is bounded to struct
 
 // GetTrace get trace
-func GetTrace() string {
-	var stacktrace string
-	for i := 1; ; i++ {
-		_, f, l, got := runtime.Caller(i)
-		if !got {
-			break
-		}
-		stacktrace += fmt.Sprintf("%s:%d\n", f, l)
-		fmt.Println(stacktrace)
-	}
-	return stacktrace
-}
+func GetTrace() string { _ = "STUB: not implemented"; return "" }

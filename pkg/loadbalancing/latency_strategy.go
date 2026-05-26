@@ -1,9 +1,6 @@
 package loadbalancing
 
 import (
-	"math/rand"
-	"sort"
-	"strings"
 	"sync"
 	"time"
 
@@ -24,31 +21,16 @@ func init() {
 // ByDuration is for calculating the duration
 type ByDuration []*loadbalancer.ProtocolStats
 
-func (a ByDuration) Len() int           { return len(a) }
-func (a ByDuration) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a ByDuration) Less(i, j int) bool { return a[i].AvgLatency < a[j].AvgLatency }
+func (a ByDuration) Len() int           { _ = "STUB: not implemented"; return 0 }
+func (a ByDuration) Swap(i, j int)      { _ = "STUB: not implemented"; return }
+func (a ByDuration) Less(i, j int) bool { _ = "STUB: not implemented"; return false }
 
 // SortLatency sort instance based on  the average latencies
-func SortLatency() {
-	loadbalancer.LatencyMapRWMutex.RLock()
-	for _, v := range loadbalancer.ProtocolStatsMap {
-		sort.Sort(ByDuration(v))
-	}
-	loadbalancer.LatencyMapRWMutex.RUnlock()
-
-}
+func SortLatency() { _ = "STUB: not implemented"; return }
 
 // CalculateAvgLatency Calculating the average latency for each instance using the statistics collected,
 // key is addr/service/protocol
-func CalculateAvgLatency() {
-	loadbalancer.LatencyMapRWMutex.RLock()
-	for _, v := range loadbalancer.ProtocolStatsMap {
-		for _, stats := range v {
-			stats.CalculateAverageLatency()
-		}
-	}
-	loadbalancer.LatencyMapRWMutex.RUnlock()
-}
+func CalculateAvgLatency() { _ = "STUB: not implemented"; return }
 
 // WeightedResponseStrategy is a strategy plugin
 type WeightedResponseStrategy struct {
@@ -85,46 +67,20 @@ func init() {
 	}()
 }
 func newWeightedResponseStrategy() loadbalancer.Strategy {
-
-	return &WeightedResponseStrategy{}
+	_ = "STUB: not implemented"
+	return *new(loadbalancer.Strategy)
 }
 
 // ReceiveData receive data
 func (r *WeightedResponseStrategy) ReceiveData(inv *invocation.Invocation, instances []*registry.MicroServiceInstance, serviceKey string) {
-	r.instances = instances
-	keys := strings.SplitN(serviceKey, "|", 2)
-	switch len(keys) {
-	case 1:
-		r.serviceName = keys[0]
-	case 2:
-		r.serviceName = keys[0]
-		r.tags = keys[1]
-
-	}
-	r.protocol = inv.Protocol
+	_ = "STUB: not implemented"
+	return
 }
 
 // Pick return instance
 func (r *WeightedResponseStrategy) Pick() (*registry.MicroServiceInstance, error) {
-	if rand.Intn(100) < 70 {
-		var instanceAddr string
-		loadbalancer.LatencyMapRWMutex.RLock()
-		if len(loadbalancer.ProtocolStatsMap[loadbalancer.BuildKey(r.serviceName, r.tags, r.protocol)]) != 0 {
-			instanceAddr = loadbalancer.ProtocolStatsMap[loadbalancer.BuildKey(r.serviceName, r.tags, r.protocol)][0].Addr
-		}
-		loadbalancer.LatencyMapRWMutex.RUnlock()
-		for _, instance := range r.instances {
-			if len(instanceAddr) != 0 && strings.Contains(instance.EndpointsMap[r.protocol].GenEndpoint(), instanceAddr) {
-				return instance, nil
-			}
-		}
-	}
-
-	//if no instances are selected round robin will be done
-	weightedRespMutex.Lock()
-	node := r.instances[i%len(r.instances)]
-	i++
-	weightedRespMutex.Unlock()
-	return node, nil
-
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+//if no instances are selected round robin will be done

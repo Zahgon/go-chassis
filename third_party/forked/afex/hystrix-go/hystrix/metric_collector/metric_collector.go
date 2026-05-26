@@ -21,22 +21,14 @@ type metricCollectorRegistry struct {
 
 // InitializeMetricCollectors runs the registried MetricCollector Initializers to create an array of MetricCollectors.
 func (m *metricCollectorRegistry) InitializeMetricCollectors(name string) []MetricCollector {
-	m.lock.RLock()
-	defer m.lock.RUnlock()
-
-	metrics := make([]MetricCollector, len(m.registry))
-	for i, metricCollectorInitializer := range m.registry {
-		metrics[i] = metricCollectorInitializer(name)
-	}
-	return metrics
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Register places a MetricCollector Initializer in the registry maintained by this metricCollectorRegistry.
 func (m *metricCollectorRegistry) Register(initMetricCollector func(string) MetricCollector) {
-	m.lock.Lock()
-	defer m.lock.Unlock()
-
-	m.registry = append(m.registry, initMetricCollector)
+	_ = "STUB: not implemented"
+	return
 }
 
 // MetricCollector represents the contract that all collectors must fulfill to gather circuit statistics.

@@ -7,24 +7,15 @@ import (
 	"github.com/go-chassis/go-chassis/v2/security/cipher"
 	"github.com/go-chassis/go-chassis/v2/server/restful"
 	"github.com/go-chassis/openlog"
-	"net/http"
 )
 
 type DemoResource struct {
 }
 
-func (r *DemoResource) Limit(b *restful.Context) {
-	b.ReadResponseWriter().WriteHeader(http.StatusOK)
-	d, _ := cipher.Decrypt("ok")
-	b.ReadResponseWriter().Write([]byte(d))
-}
+func (r *DemoResource) Limit(b *restful.Context) { _ = "STUB: not implemented"; return }
 
 // URLPatterns returns routes
-func (r *DemoResource) URLPatterns() []restful.Route {
-	return []restful.Route{
-		{Method: http.MethodGet, Path: "/decrypt", ResourceFunc: r.Limit},
-	}
-}
+func (r *DemoResource) URLPatterns() []restful.Route { _ = "STUB: not implemented"; return nil }
 
 //if you use go run main.go instead of binary run, plz export CHASSIS_HOME=/{path}/{to}/{project_root}/
 
@@ -43,15 +34,21 @@ type DefaultCipher struct {
 }
 
 func new() security.Cipher {
-	return &DefaultCipher{}
+	_ = "STUB: not implemented"
+	return *
+
+	// Encrypt is method used for encryption
+	new(security.Cipher)
 }
 
-// Encrypt is method used for encryption
 func (c *DefaultCipher) Encrypt(src string) (string, error) {
-	return src, nil
+	_ = "STUB: not implemented"
+
+	// Decrypt is method used for decryption
+	return "", nil
 }
 
-// Decrypt is method used for decryption
 func (c *DefaultCipher) Decrypt(src string) (string, error) {
-	return "d: " + src, nil
+	_ = "STUB: not implemented"
+	return "", nil
 }

@@ -4,15 +4,10 @@ package provider
 // Some parts of this file have been modified to make it functional in this package
 
 import (
-	"errors"
-	"fmt"
 	"reflect"
 	"sync"
-	"unicode"
-	"unicode/utf8"
 
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
-	"github.com/go-chassis/openlog"
 )
 
 // Copyright 2009 The Go Authors. All rights reserved.
@@ -58,17 +53,17 @@ type operation struct {
 	Out        []reflect.Type
 }
 
-func (o *operation) Method() reflect.Method {
-	return o.method
-}
-func (o *operation) Args() []reflect.Type {
-	return o.In
-}
+func (o *operation) Method() reflect.Method { _ = "STUB: not implemented"; return *new(reflect.Method) }
+
+func (o *operation) Args() []reflect.Type { _ = "STUB: not implemented"; return nil }
+
 func (o *operation) Reply() []reflect.Type {
-	return o.Out
+	_ = "STUB: not implemented"
+
+	// Schema struct is having schema name, receiver, and registered methods
+	return nil
 }
 
-// Schema struct is having schema name, receiver, and registered methods
 type Schema struct {
 	name    string                // name of schema
 	rcvr    reflect.Value         // receiver of methods for the schema
@@ -86,7 +81,8 @@ type DefaultProvider struct {
 
 // NewProvider returns the object of DefaultProvider
 func NewProvider(microserviceName string) Provider {
-	return &DefaultProvider{MicroServiceName: microserviceName}
+	_ = "STUB: not implemented"
+	return *new(Provider)
 }
 
 // Register publishes in the server the set of methods of the
@@ -101,198 +97,76 @@ func NewProvider(microserviceName string) Provider {
 // The client accesses each method using a string of the form "Type.Method",
 // where Type is the receiver's concrete type.
 func (p *DefaultProvider) Register(schema interface{}) (string, error) {
-	return p.register(schema, "", false)
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // RegisterName is like Register but uses the provided name for the type
 // instead of the receiver's concrete type.
 func (p *DefaultProvider) RegisterName(name string, rcvr interface{}) error {
-	_, err := p.register(rcvr, name, true)
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
+
 func (p *DefaultProvider) register(schema interface{}, name string, useName bool) (string, error) {
-	p.mu.Lock()
-	defer p.mu.Unlock()
-	if p.SchemaMap == nil {
-		p.SchemaMap = make(map[string]*Schema)
-	}
-	s := new(Schema)
-	s.typ = reflect.TypeOf(schema)
-	s.rcvr = reflect.ValueOf(schema)
-	sname := reflect.Indirect(s.rcvr).Type().Name()
-	if useName {
-		sname = name
-	}
-	if sname == "" {
-		s := "rpc.Register: no service name for type " + s.typ.String()
-		return "", errors.New(s)
-	}
-	if !isExported(sname) && !useName {
-		s := "rpc.Register: type " + sname + " is not exported"
-		return "", errors.New(s)
-	}
-	if _, present := p.SchemaMap[sname]; present {
-		return "", errors.New("rpc: service already defined: " + sname)
-	}
-	s.name = sname
-
-	// Install the methods
-	s.methods = suitableMethods(s.typ, true)
-
-	if len(s.methods) == 0 {
-		str := ""
-
-		// To help the user, see if a pointer receiver would work.
-		method := suitableMethods(reflect.PtrTo(s.typ), false)
-		if len(method) != 0 {
-			str = "rpc.Register: type " + sname + " has no exported methods of suitable type (hint: pass a pointer to value of that type)"
-		} else {
-			str = "rpc.Register: type " + sname + " has no exported methods of suitable type"
-		}
-		return "", errors.New(str)
-	}
-	p.SchemaMap[s.name] = s
-	return sname, nil
+	_ = "STUB: not implemented"
+	return "", nil
 }
+
+// Install the methods
+
+// To help the user, see if a pointer receiver would work.
 
 // suitableMethods returns suitable Rpc methods of typ, it will report
 // error using log if reportErr is true.
 func suitableMethods(typ reflect.Type, reportErr bool) map[string]*operation {
-	methods := make(map[string]*operation)
-	for m := 0; m < typ.NumMethod(); m++ {
-
-		method := typ.Method(m)
-		mtype := method.Type
-		mname := method.Name
-
-		// Method must be exported.
-		if method.PkgPath != "" {
-			if reportErr {
-				openlog.Warn("Method must be exported")
-			}
-			continue
-		}
-		// Method needs three ins: receiver, *anyArg, *request.
-		if mtype.NumIn() != 3 {
-			openlog.Warn(fmt.Sprintf("method has wrong number of ins, method:%s, nujm:%d", mname, mtype.NumIn()))
-			continue
-		}
-
-		// second arg need not be a pointer.
-		any := mtype.In(1)
-		if !isExportedOrBuiltinType(any) {
-			if reportErr {
-				openlog.Warn(fmt.Sprintf("argument type not exported, method:%s, nujm:%s", mname, any))
-			}
-			continue
-		}
-
-		// Second arg must be a pointer.
-		requestType := mtype.In(2)
-		if requestType.Kind() != reflect.Ptr {
-			if reportErr {
-				openlog.Warn(fmt.Sprintf("method reply type not a pointer, method:%s, requestType:%s", mname, requestType))
-			}
-			continue
-		}
-		// request type must be exported.
-		if !isExportedOrBuiltinType(requestType) {
-			if reportErr {
-				openlog.Warn(fmt.Sprintf("method reply type not exported, method:%s, requestType:%s", mname, requestType))
-			}
-			continue
-		}
-		var in = []reflect.Type{any, requestType}
-		// Method needs 2 out.
-		// response must be a pointer.
-		if mtype.NumOut() != 2 {
-			openlog.Warn(fmt.Sprintf("method has wrong number of outs, method:%s, requestType:%d", mname, mtype.NumOut()))
-			continue
-		}
-		reponseType := mtype.Out(0)
-		if reponseType.Kind() != reflect.Ptr {
-			openlog.Warn(fmt.Sprintf("method reply type not a pointe, method:%s, reponseType:%s", mname, reponseType))
-			continue
-		}
-
-		// The second return type of the method must be error.
-		returnType := mtype.Out(1)
-		if returnType != typeOfError {
-			if reportErr {
-				openlog.Warn(fmt.Sprintf("method returns method:%s, returnType.String():%s", mname, returnType.String()))
-			}
-			continue
-		}
-		var out = []reflect.Type{reponseType, returnType}
-		methods[mname] = &operation{method: method, In: in, Out: out}
-	}
-
-	return methods
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// Method must be exported.
+
+// Method needs three ins: receiver, *anyArg, *request.
+
+// second arg need not be a pointer.
+
+// Second arg must be a pointer.
+
+// request type must be exported.
+
+// Method needs 2 out.
+// response must be a pointer.
+
+// The second return type of the method must be error.
 
 // Is this an exported - upper case - name?
-func isExported(name string) bool {
-	rune, _ := utf8.DecodeRuneInString(name)
-	return unicode.IsUpper(rune)
-}
+func isExported(name string) bool { _ = "STUB: not implemented"; return false }
 
 // Is this type exported or a builtin?
-func isExportedOrBuiltinType(t reflect.Type) bool {
-	for t.Kind() == reflect.Ptr {
-		t = t.Elem()
-	}
-	// PkgPath will be non-empty even for an exported type,
-	// so we need to check the type name as well.
-	return isExported(t.Name()) || t.PkgPath() == ""
-}
+func isExportedOrBuiltinType(t reflect.Type) bool { _ = "STUB: not implemented"; return false }
+
+// PkgPath will be non-empty even for an exported type,
+// so we need to check the type name as well.
 
 // Invoke is for to invoke the methods of defaultprovider
 func (p *DefaultProvider) Invoke(inv *invocation.Invocation) (interface{}, error) {
-	schema := p.SchemaMap[inv.SchemaID]
-	op := schema.methods[inv.OperationID]
-	var err error
-
-	defer func() {
-		if r := recover(); r != nil {
-			err = r.(error)
-			openlog.Error(fmt.Sprintf("Invoke returns error:%s", err.Error()))
-		}
-	}()
-
-	function := op.method.Func
-	// Invoke the method, providing a new value for the reply.
-	returnValues := function.Call([]reflect.Value{schema.rcvr, reflect.Indirect(reflect.New(op.In[0])), reflect.ValueOf(inv.Args)})
-	// The return value for the method is an error.
-	errInter := returnValues[1].Interface()
-
-	if errInter != nil {
-		err = errInter.(error)
-	}
-	return returnValues[0].Interface(), err
-
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// Invoke the method, providing a new value for the reply.
+
+// The return value for the method is an error.
 
 // GetOperation get operation
 func (p *DefaultProvider) GetOperation(schemaID string, operationID string) (Operation, error) {
-	s := p.SchemaMap[schemaID]
-	if s == nil {
-		return nil, fmt.Errorf("Schema [%s] doesn't exist ", schemaID)
-	}
-	if s.methods[operationID] == nil {
-		return nil, fmt.Errorf("Schema [%s] doesn't exist ", schemaID)
-	}
-	return s.methods[operationID], nil
+	_ = "STUB: not implemented"
+	return *new(Operation), nil
 }
 
 // Exist check the schema, operation is present or not
 func (p *DefaultProvider) Exist(schemaID string, operationID string) bool {
-	op, err := p.GetOperation(schemaID, operationID)
-	if err != nil {
-		return false
-	}
-	if op != nil {
-		return true
-	}
+	_ = "STUB: not implemented"
 	return false
 }
 

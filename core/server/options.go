@@ -2,8 +2,9 @@ package server
 
 import (
 	"crypto/tls"
-	"k8s.io/apimachinery/pkg/util/sets"
 	"time"
+
+	"k8s.io/apimachinery/pkg/util/sets"
 
 	"github.com/go-chassis/go-chassis/v2/core/provider"
 )
@@ -39,30 +40,23 @@ type RegisterOption func(*RegisterOptions)
 
 // WithSchemaID you can specify a unique id for schema
 func WithSchemaID(schemaID string) RegisterOption {
-	return func(o *RegisterOptions) {
-		o.SchemaID = schemaID
-	}
+	_ = "STUB: not implemented"
+	return *new(RegisterOption)
 }
 
 // WithPath specify a url pattern
-func WithPath(Path string) RegisterOption {
-	return func(o *RegisterOptions) {
-		o.Path = Path
-	}
-}
+func WithPath(Path string) RegisterOption { _ = "STUB: not implemented"; return *new(RegisterOption) }
 
 // WithMethod specify a method
 func WithMethod(Method string) RegisterOption {
-	return func(o *RegisterOptions) {
-		o.Method = Method
-	}
+	_ = "STUB: not implemented"
+	return *new(RegisterOption)
 }
 
 // WithRPCServiceDesc you can set rpc service desc, it cloud be *grpc.ServiceDesc
 func WithRPCServiceDesc(RPCSvcDesc interface{}) RegisterOption {
-	return func(o *RegisterOptions) {
-		o.RPCSvcDesc = RPCSvcDesc
-	}
+	_ = "STUB: not implemented"
+	return *new(RegisterOption)
 }
 
 type RunOptions struct {
@@ -73,12 +67,6 @@ type RunOption func(*RunOptions)
 
 // WithServerMask you can specify do not start a protocol server
 func WithServerMask(serverNames ...string) RunOption {
-	return func(o *RunOptions) {
-		if o.serverMasks == nil {
-			o.serverMasks = sets.NewString(serverNames...)
-		} else {
-			o.serverMasks.Insert(serverNames...)
-		}
-
-	}
+	_ = "STUB: not implemented"
+	return *new(RunOption)
 }

@@ -1,13 +1,10 @@
 package hystrix
 
 import (
-	"fmt"
 	"sync"
 	"time"
 
-	"github.com/go-chassis/go-chassis/v2/third_party/forked/afex/hystrix-go/hystrix/metric_collector"
 	"github.com/go-chassis/go-chassis/v2/third_party/forked/afex/hystrix-go/hystrix/rolling"
-	"github.com/go-chassis/openlog"
 )
 
 type commandExecution struct {
@@ -24,126 +21,32 @@ type metricExchange struct {
 	metricCollectors []metricCollector.MetricCollector
 }
 
-func newMetricExchange(name string, num int) *metricExchange {
-	m := &metricExchange{}
-	m.Name = name
-
-	m.Updates = make(chan *commandExecution, 2000)
-	m.Mutex = &sync.RWMutex{}
-	m.metricCollectors = metricCollector.Registry.InitializeMetricCollectors(name)
-	m.Reset()
-	for i := 0; i < num; i++ {
-		go m.Monitor()
-	}
-	openlog.Debug(fmt.Sprintf(" launched [%d] Metrics consumer", num))
-	return m
-}
+func newMetricExchange(name string, num int) *metricExchange { _ = "STUB: not implemented"; return nil }
 
 // The Default Collector function will panic if collectors are not setup to specification.
 func (m *metricExchange) DefaultCollector() *metricCollector.DefaultMetricCollector {
-	if len(m.metricCollectors) < 1 {
-		panic("No Metric Collectors Registered")
-	}
-	collection, ok := m.metricCollectors[0].(*metricCollector.DefaultMetricCollector)
-	if !ok {
-		panic("Default metric collector is not registered correctly. The default metric collector must be registered first")
-	}
-	return collection
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (m *metricExchange) Monitor() {
-	for update := range m.Updates {
-		// we only grab a read lock to make sure Reset() isn't changing the numbers.
-		m.Mutex.RLock()
+func (m *metricExchange) Monitor() { _ = "STUB: not implemented"; return }
 
-		totalDuration := time.Since(update.Start)
-		for _, collector := range m.metricCollectors {
-			m.IncrementMetrics(collector, update, totalDuration)
-		}
-
-		m.Mutex.RUnlock()
-	}
-}
+// we only grab a read lock to make sure Reset() isn't changing the numbers.
 
 func (m *metricExchange) IncrementMetrics(collector metricCollector.MetricCollector, update *commandExecution, totalDuration time.Duration) {
+	_ = "STUB: not implemented"
 	// granular Metrics
-	if update.Types[0] == "success" {
-		collector.IncrementAttempts()
-		collector.IncrementSuccesses()
-	}
-	if update.Types[0] == "failure" {
-		collector.IncrementFailures()
-
-		collector.IncrementAttempts()
-		collector.IncrementErrors()
-	}
-	if update.Types[0] == "rejected" {
-		collector.IncrementRejects()
-
-		collector.IncrementAttempts()
-		collector.IncrementErrors()
-	}
-	if update.Types[0] == "short-circuit" {
-		collector.IncrementShortCircuits()
-
-		collector.IncrementAttempts()
-	}
-	if update.Types[0] == "timeout" {
-		collector.IncrementTimeouts()
-
-		collector.IncrementAttempts()
-		collector.IncrementErrors()
-	}
-
-	if len(update.Types) > 1 {
-		// fallback Metrics
-		if update.Types[1] == "fallback-success" {
-			collector.IncrementFallbackSuccesses()
-		}
-		if update.Types[1] == "fallback-failure" {
-			collector.IncrementFallbackFailures()
-		}
-	}
-
-	collector.UpdateTotalDuration(totalDuration)
-	collector.UpdateRunDuration(update.RunDuration)
-
+	return
 }
 
-func (m *metricExchange) Reset() {
-	m.Mutex.Lock()
-	defer m.Mutex.Unlock()
+// fallback Metrics
 
-	for _, collector := range m.metricCollectors {
-		collector.Reset()
-	}
-}
+func (m *metricExchange) Reset() { _ = "STUB: not implemented"; return }
 
-func (m *metricExchange) Requests() *rolling.Number {
-	m.Mutex.RLock()
-	defer m.Mutex.RUnlock()
-	return m.requestsLocked()
-}
+func (m *metricExchange) Requests() *rolling.Number { _ = "STUB: not implemented"; return nil }
 
-func (m *metricExchange) requestsLocked() *rolling.Number {
-	return m.DefaultCollector().NumRequests()
-}
+func (m *metricExchange) requestsLocked() *rolling.Number { _ = "STUB: not implemented"; return nil }
 
-func (m *metricExchange) ErrorPercent(now time.Time) int {
-	m.Mutex.RLock()
-	defer m.Mutex.RUnlock()
+func (m *metricExchange) ErrorPercent(now time.Time) int { _ = "STUB: not implemented"; return 0 }
 
-	var errPct float64
-	reqs := m.requestsLocked().Sum(now)
-	errs := m.DefaultCollector().Errors().Sum(now)
-
-	if reqs > 0 {
-		errPct = (float64(errs) / float64(reqs)) * 100
-	}
-
-	return int(errPct + 0.5)
-}
-
-func (m *metricExchange) IsHealthy(now time.Time) bool {
-	return m.ErrorPercent(now) < getSettings(m.Name).ErrorPercentThreshold
-}
+func (m *metricExchange) IsHealthy(now time.Time) bool { _ = "STUB: not implemented"; return false }

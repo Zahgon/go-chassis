@@ -17,12 +17,6 @@
 
 package governance
 
-import (
-	"github.com/go-chassis/go-archaius"
-	"github.com/go-chassis/openlog"
-	"strings"
-)
-
 // prefix const
 const (
 	KindMatchPrefix        = "servicecomb.match"
@@ -40,29 +34,8 @@ type ProcessFunc func(key string, value string) error
 
 // InstallProcessor install a func to process config,
 // if a config key matches the key prefix, then the func will process the config
-func InstallProcessor(keyPrefix string, process ProcessFunc) {
-	processFuncMap[keyPrefix] = process
-}
+func InstallProcessor(keyPrefix string, process ProcessFunc) { _ = "STUB: not implemented"; return }
 
 // Init go through all governance configs
 // and call process func according to key prefix
-func Init() {
-	configMap := archaius.GetConfigs()
-	openlog.Info("process all governance rules")
-	for k, v := range configMap {
-		value, ok := v.(string)
-		if !ok {
-			openlog.Warn("not string format,key:" + k)
-		}
-		openlog.Debug(k + ":" + value)
-		for prefix, f := range processFuncMap {
-			if strings.HasPrefix(k, prefix) {
-				err := f(k, value)
-				if err != nil {
-					openlog.Error("can not process " + prefix + ":" + err.Error())
-				}
-				break
-			}
-		}
-	}
-}
+func Init() { _ = "STUB: not implemented"; return }

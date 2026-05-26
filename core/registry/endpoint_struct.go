@@ -1,9 +1,5 @@
 package registry
 
-import (
-	"strings"
-)
-
 // const
 const (
 	SSLEnabledQuery = "sslEnabled=true"
@@ -17,44 +13,21 @@ type Endpoint struct {
 
 // NewEndPoint return a Endpoint object what parse from url
 func NewEndPoint(schema string) (*Endpoint, error) {
-	return parseAddress(schema)
+	_ = "STUB: not implemented"
+	return nil,
+
+		// GenEndpoint return the endpoint string which it contain the sslEnabled=true query arg or not
+		nil
 }
 
-// GenEndpoint return the endpoint string which it contain the sslEnabled=true query arg or not
-func (e *Endpoint) GenEndpoint() string {
-	if e.SSLEnabled {
-		return e.Address + "?" + SSLEnabledQuery
-	}
-	return e.Address
-}
+func (e *Endpoint) GenEndpoint() string { _ = "STUB: not implemented"; return "" }
 
 // IsSSLEnable return it is use ssl or not
-func (e *Endpoint) IsSSLEnable() bool {
-	return e.SSLEnabled
-}
+func (e *Endpoint) IsSSLEnable() bool { _ = "STUB: not implemented"; return false }
 
 // SetSSLEnable set ssl enable or not
-func (e *Endpoint) SetSSLEnable(enabled bool) {
-	e.SSLEnabled = enabled
-}
+func (e *Endpoint) SetSSLEnable(enabled bool) { _ = "STUB: not implemented"; return }
 
-func (e *Endpoint) String() string {
-	return e.GenEndpoint()
-}
+func (e *Endpoint) String() string { _ = "STUB: not implemented"; return "" }
 
-func parseAddress(address string) (*Endpoint, error) {
-	ep := Endpoint{}
-	idx := strings.Index(address, "?")
-	if idx != -1 {
-		if strings.Contains(address, SSLEnabledQuery) {
-			ep.SSLEnabled = true
-		}
-		address = address[:idx]
-	}
-	if pIdx := strings.Index(address, ":"); pIdx == -1 {
-		ep.Address = address
-		return &ep, nil
-	}
-	ep.Address = address
-	return &ep, nil
-}
+func parseAddress(address string) (*Endpoint, error) { _ = "STUB: not implemented"; return nil, nil }

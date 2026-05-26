@@ -1,10 +1,10 @@
 package main
 
 import (
-	"errors"
-	"github.com/go-chassis/go-chassis/v2/middleware/jwt"
 	"net/http"
 	"strings"
+
+	"github.com/go-chassis/go-chassis/v2/middleware/jwt"
 
 	"github.com/go-chassis/go-chassis/v2"
 	_ "github.com/go-chassis/go-chassis/v2/middleware/jwt"
@@ -44,38 +44,9 @@ type User struct {
 type HelloAuth struct {
 }
 
-func (r *HelloAuth) Login(b *rf.Context) {
-	u := &User{}
-	if err := b.ReadEntity(u); err != nil {
-		b.WriteError(http.StatusInternalServerError, err)
-		return
-	}
-	if u.Name == "admin" && u.Pwd == "admin" {
-		to, err := token.DefaultManager.Sign(map[string]interface{}{
-			"user": u.Name,
-			"pwd":  u.Pwd,
-		}, []byte("my_secret"))
-		if err != nil {
-			b.WriteError(http.StatusInternalServerError, err)
-		}
-		b.Write([]byte(to))
-	} else {
-		b.WriteError(http.StatusInternalServerError, errors.New("wrong user or pwd"))
-	}
+func (r *HelloAuth) Login(b *rf.Context) { _ = "STUB: not implemented"; return }
 
-}
-
-func (r *HelloAuth) Access(b *rf.Context) {
-	b.Write([]byte("success"))
-}
+func (r *HelloAuth) Access(b *rf.Context) { _ = "STUB: not implemented"; return }
 
 // URLPatterns helps to respond for corresponding API calls
-func (r *HelloAuth) URLPatterns() []rf.Route {
-	return []rf.Route{
-		{Method: http.MethodPost, Path: "/login", ResourceFunc: r.Login,
-			Returns: []*rf.Returns{{Code: 200}}},
-
-		{Method: http.MethodGet, Path: "/resource", ResourceFunc: r.Access,
-			Returns: []*rf.Returns{{Code: 200}}},
-	}
-}
+func (r *HelloAuth) URLPatterns() []rf.Route { _ = "STUB: not implemented"; return nil }

@@ -1,10 +1,6 @@
 package tracing
 
 import (
-	"fmt"
-
-	"github.com/go-chassis/go-chassis/v2/core/config"
-	"github.com/go-chassis/openlog"
 	"github.com/opentracing/opentracing-go"
 )
 
@@ -17,36 +13,13 @@ var TracerFuncMap = make(map[string]NewTracer)
 type NewTracer func(o map[string]string) (opentracing.Tracer, error)
 
 // InstallTracer install new opentracing tracer
-func InstallTracer(name string, f NewTracer) {
-	TracerFuncMap[name] = f
-	openlog.Info("installed tracing plugin: " + name)
-
-}
+func InstallTracer(name string, f NewTracer) { _ = "STUB: not implemented"; return }
 
 // GetTracerFunc get NewTracer
 func GetTracerFunc(name string) (NewTracer, error) {
-	tracer, ok := TracerFuncMap[name]
-	if !ok {
-		return nil, fmt.Errorf("not supported tracer [%s]", name)
-	}
-	return tracer, nil
+	_ = "STUB: not implemented"
+	return *new(NewTracer), nil
 }
 
 // Init initialize the global tracer
-func Init() error {
-	openlog.Info("Tracing enabled. Start to init tracer.")
-	if config.GlobalDefinition.Tracing.Tracer == "" {
-		config.GlobalDefinition.Tracing.Tracer = "zipkin"
-	}
-	f, err := GetTracerFunc(config.GlobalDefinition.Tracing.Tracer)
-	if err != nil {
-		openlog.Warn("can not load any opentracing plugin, lost distributed tracing function")
-		return nil
-	}
-	tracer, err := f(config.GlobalDefinition.Tracing.Settings)
-	if err != nil {
-		return err
-	}
-	opentracing.SetGlobalTracer(tracer)
-	return nil
-}
+func Init() error { _ = "STUB: not implemented"; return nil }

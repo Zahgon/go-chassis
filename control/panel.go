@@ -1,11 +1,9 @@
 package control
 
 import (
-	"fmt"
 	"github.com/go-chassis/go-chassis/v2/core/config/model"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
 	"github.com/go-chassis/go-chassis/v2/third_party/forked/afex/hystrix-go/hystrix"
-	"strings"
 )
 
 var panelPlugin = make(map[string]func(options Options) Panel)
@@ -40,66 +38,16 @@ type Panel interface {
 }
 
 // InstallPlugin install implementation
-func InstallPlugin(name string, f func(options Options) Panel) {
-	panelPlugin[name] = f
-}
+func InstallPlugin(name string, f func(options Options) Panel) { _ = "STUB: not implemented"; return }
 
 // Init initialize DefaultPanel
-func Init(opts Options) error {
-	infra := opts.Infra
-	if infra == "" {
-		infra = "archaius"
-	}
-	f, ok := panelPlugin[infra]
-	if !ok {
-		return fmt.Errorf("do not support [%s] panel", infra)
-	}
-
-	DefaultPanel = f(opts)
-	return nil
-}
+func Init(opts Options) error { _ = "STUB: not implemented"; return nil }
 
 // NewCircuitName create circuit command string
 // scope means has two choices, service and api
 // if you set it to api, a api level command string will be created. like "Consumer.mall.rest./test"
 // set to service, a service level command will be created, like "Consumer.mall"
 func NewCircuitName(serviceType, scope string, inv invocation.Invocation) string {
-	var cmd = serviceType
-	if inv.MicroServiceName != "" {
-		cmd = strings.Join([]string{cmd, inv.MicroServiceName}, ".")
-	}
-	if scope == "" {
-		scope = ScopeAPI
-	}
-
-	if scope == ScopeAPI {
-		if inv.SchemaID != "" {
-			cmd = strings.Join([]string{cmd, inv.SchemaID}, ".")
-		}
-		if inv.OperationID != "" {
-			cmd = strings.Join([]string{cmd, inv.OperationID}, ".")
-		}
-		return cmd
-	}
-	if scope == ScopeInstance {
-		if inv.Endpoint != "" {
-			cmd = strings.Join([]string{cmd, inv.Endpoint}, ".")
-		}
-		return cmd
-	}
-	if scope == ScopeInstanceAPI {
-		if inv.Endpoint != "" {
-			cmd = strings.Join([]string{cmd, inv.Endpoint}, ".")
-		}
-		if inv.SchemaID != "" {
-			cmd = strings.Join([]string{cmd, inv.SchemaID}, ".")
-		}
-		if inv.OperationID != "" {
-			cmd = strings.Join([]string{cmd, inv.OperationID}, ".")
-		}
-		return cmd
-	}
-
-	return cmd
-
+	_ = "STUB: not implemented"
+	return ""
 }

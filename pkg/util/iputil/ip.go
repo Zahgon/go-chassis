@@ -2,245 +2,80 @@ package iputil
 
 import (
 	"crypto/tls"
-	"fmt"
-	"github.com/go-chassis/openlog"
-	"log"
 	"net"
 	"net/http"
-	"net/url"
-	"strconv"
-	"strings"
-
-	"github.com/go-chassis/go-chassis/v2/core/common"
 )
 
 // Localhost is a function which returns localhost IP address
-func Localhost() string { return "127.0.0.1" }
+func Localhost() string {
+	_ = "STUB: not implemented"
 
-// GetLocalIP 获得本机IP
-func GetLocalIP() string {
-	addresses, err := net.InterfaceAddrs()
-	if err != nil {
-		log.Println(err)
-		return ""
-	}
-	for _, address := range addresses {
-		// Parse IP
-		var ip net.IP
-		if ip, _, err = net.ParseCIDR(address.String()); err != nil {
-			log.Println(err)
-			return ""
-		}
-		// Check if valid global unicast IPv4 address
-		if ip != nil && (ip.To4() != nil) && ip.IsGlobalUnicast() {
-			return ip.String()
-		}
-	}
+	// GetLocalIP 获得本机IP
 	return ""
 }
 
+func GetLocalIP() string { _ = "STUB: not implemented"; return "" }
+
+// Parse IP
+
+// Check if valid global unicast IPv4 address
+
 // DefaultEndpoint4Protocol : To ensure consistency, we generate default addr for listenAddress and advertiseAddress by one method. To avoid unnecessary port allocation work, we allocate fixed port for user defined protocol.
-func DefaultEndpoint4Protocol(proto string) string {
-	return strings.Join([]string{Localhost(), DefaultPort4Protocol(proto)}, ":")
-}
+func DefaultEndpoint4Protocol(proto string) string { _ = "STUB: not implemented"; return "" }
 
 // DefaultPort4Protocol returns the default port for different protocols
-func DefaultPort4Protocol(proto string) string {
-	switch proto {
-	case common.ProtocolRest:
-		return "5000"
-	case common.ProtocolHighway:
-		return "6000"
-	default:
-		return "7000"
-	}
-}
+func DefaultPort4Protocol(proto string) string { _ = "STUB: not implemented"; return "" }
 
 // URIs2Hosts returns hosts and schema
 func URIs2Hosts(uris []string) ([]string, string, error) {
-	hosts := make([]string, 0, len(uris))
-	var scheme string
-	for _, addr := range uris {
-		u, e := url.Parse(addr)
-		if e != nil {
-			//not uri. but still permitted, like zookeeper,file system
-			openlog.Warn(fmt.Sprintf("parse address failed, %s", e.Error()))
-			continue
-		}
-		if len(u.Host) == 0 {
-			continue
-		}
-		if len(scheme) != 0 && u.Scheme != scheme {
-			return nil, "", fmt.Errorf("inconsistent scheme found in registry address")
-		}
-		scheme = u.Scheme
-		hosts = append(hosts, u.Host)
-
-	}
-	return hosts, scheme, nil
+	_ = "STUB: not implemented"
+	return nil, "", nil
 }
+
+//not uri. but still permitted, like zookeeper,file system
 
 // GetLocalIPv6 Get IPv6 address of NIC.
-func GetLocalIPv6() string {
-	addresses, err := net.InterfaceAddrs()
-	if err != nil {
-		return ""
-	}
-	for _, address := range addresses {
-		// Parse IP
-		var ip net.IP
-		if ip, _, err = net.ParseCIDR(address.String()); err != nil {
-			return ""
-		}
-		// Check if valid IPv6 address
-		if ip != nil && (ip.To16() != nil) && IsIPv6Address(ip) && ip.IsGlobalUnicast() {
-			return ip.String()
-		}
-	}
-	return ""
-}
+func GetLocalIPv6() string { _ = "STUB: not implemented"; return "" }
+
+// Parse IP
+
+// Check if valid IPv6 address
 
 // IsIPv6Address check whether the IP is IPv6 address.
-func IsIPv6Address(ip net.IP) bool {
-	if ip != nil && strings.Contains(ip.String(), ":") {
-		return true
-	}
-	return false
-}
+func IsIPv6Address(ip net.IP) bool { _ = "STUB: not implemented"; return false }
 
 func NormalizeAddrWithNetwork(addr string) (normalizedAddr string, network string, err error) {
-	ipStr, portStr, err := splitIPAndPort(addr)
-	if err != nil {
-		return "", "", fmt.Errorf("splitIPAndPort %s failed: %v", addr, err)
-	}
-
-	port, err := strconv.Atoi(portStr)
-	if err != nil || port < 0 || port > 65535 {
-		return "", "", fmt.Errorf("invalid port(not 0-65535): %s", portStr)
-	}
-
-	ip := net.ParseIP(ipStr)
-	if ip == nil {
-		return "", "", fmt.Errorf("invalid ip: %s", ipStr)
-	}
-
-	if ip.To4() != nil {
-		// IPv4：地址不变，网络类型tcp4
-		normalizedAddr = fmt.Sprintf("%s:%d", ipStr, port)
-		network = "tcp4"
-	} else {
-		// IPv6：转为[ip]:port格式，网络类型tcp6
-		normalizedAddr = fmt.Sprintf("[%s]:%d", ipStr, port)
-		network = "tcp6"
-	}
-
-	return normalizedAddr, network, nil
+	_ = "STUB: not implemented"
+	return "", "", nil
 }
+
+// IPv4：地址不变，网络类型tcp4
+
+// IPv6：转为[ip]:port格式，网络类型tcp6
 
 // splitIPAndPort 拆分IP和端口（兼容IPv4/IPv6格式）
 func splitIPAndPort(addr string) (ip string, port string, err error) {
+	_ = "STUB: not implemented"
 	// 处理IPv6带方括号的情况（提前兼容，避免拆分错误）
-	if strings.HasPrefix(addr, "[") && strings.Contains(addr, "]:") {
-		parts := strings.SplitN(addr, "]:", 2)
-		if len(parts) != 2 {
-			return "", "", fmt.Errorf("invalid addr: %s", addr)
-		}
-		return strings.TrimPrefix(parts[0], "["), parts[1], nil
-	}
-
-	// 从后往前找最后一个冒号（区分IPv6多冒号和端口分隔符）
-	lastColonIdx := strings.LastIndex(addr, ":")
-	if lastColonIdx == -1 {
-		return "", "", fmt.Errorf("invalid addr, not ip:port : %s", addr)
-	}
-
-	ipPart := addr[:lastColonIdx]
-	portPart := addr[lastColonIdx+1:]
-
-	if _, err := strconv.Atoi(portPart); err != nil {
-		return "", "", fmt.Errorf("invalid port: %s", portPart)
-	}
-
-	return ipPart, portPart, nil
+	return "", "", nil
 }
+
+// 从后往前找最后一个冒号（区分IPv6多冒号和端口分隔符）
 
 // StartListener start listener with address and tls(if has), returns the listener and the real listened ip/port
 func StartListener(listenAddress string, tlsConfig *tls.Config) (listener net.Listener, listenedIP string, port string, err error) {
-	normalizedAddr, network, err := NormalizeAddrWithNetwork(listenAddress)
-	if err != nil {
-		return
-	}
-	if tlsConfig == nil {
-		listener, err = net.Listen(network, normalizedAddr)
-	} else {
-		listener, err = tls.Listen(network, normalizedAddr, tlsConfig)
-	}
-	if err != nil {
-		return
-	}
-	realAddr := listener.Addr().String()
-	listenedIP, port, err = net.SplitHostPort(realAddr)
-	if err != nil {
-		return
-	}
-	ip := net.ParseIP(listenedIP)
-	if ip.IsUnspecified() {
-		if IsIPv6Address(ip) {
-			listenedIP = GetLocalIPv6()
-			if listenedIP == "" {
-				listenedIP = GetLocalIP()
-			}
-		} else {
-			listenedIP = GetLocalIP()
-		}
-	}
-	return
+	_ = "STUB: not implemented"
+	return *new(net.Listener), "", "", nil
 }
 
 // ClientIP returns client ip
-func ClientIP(r *http.Request) string {
-	ips := ForwardedIPs(r)
-	if len(ips) > 0 {
-		ip := ips[0]
-		if !strings.Contains(ip, ":") {
-			return ip
-		}
-		rip, _, err := net.SplitHostPort(ip)
-		if err != nil {
-			openlog.Warn(fmt.Sprintf("get client ip catch a err, %s", err.Error()))
-			return ip
-		}
-		return rip
-	}
-
-	realIP := RealIP(r)
-	if len(realIP) > 0 {
-		return realIP
-	}
-	return RemoteIP(r)
-}
+func ClientIP(r *http.Request) string { _ = "STUB: not implemented"; return "" }
 
 // RemoteIP returns remote ip
-func RemoteIP(r *http.Request) string {
-	remoteIP := r.RemoteAddr
-	rip, _, err := net.SplitHostPort(remoteIP)
-	if err != nil {
-		openlog.Warn(fmt.Sprintf("get remote ip catch a err, %s", err.Error()))
-		return remoteIP
-	}
-	return rip
-}
+func RemoteIP(r *http.Request) string { _ = "STUB: not implemented"; return "" }
 
 // ForwardedIPs returns forwarded for ips
-func ForwardedIPs(r *http.Request) []string {
-	ips := r.Header.Get("X-Forwarded-For")
-	if len(ips) == 0 {
-		return []string{}
-	}
-	return strings.Split(ips, ",")
-}
+func ForwardedIPs(r *http.Request) []string { _ = "STUB: not implemented"; return nil }
 
 // RealIP returns real ip
-func RealIP(r *http.Request) string {
-	return r.Header.Get("X-Real-Ip")
-}
+func RealIP(r *http.Request) string { _ = "STUB: not implemented"; return "" }

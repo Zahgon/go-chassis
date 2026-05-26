@@ -2,12 +2,9 @@ package common
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/go-chassis/go-archaius/source/remote"
-	"github.com/go-chassis/openlog"
 )
 
 // constant for provider and consumer
@@ -160,76 +157,22 @@ type ContextHeaderKey struct{}
 
 // NewContext transforms a metadata to context object
 func NewContext(m map[string]string) context.Context {
-	if m == nil {
-		return context.WithValue(context.Background(), ContextHeaderKey{}, make(map[string]string))
-	}
-	return context.WithValue(context.Background(), ContextHeaderKey{}, m)
+	_ = "STUB: not implemented"
+	return *new(context.Context)
 }
 
 // WithContext sets the KV and returns the context object
 func WithContext(ctx context.Context, key, val string) context.Context {
-	if ctx == nil {
-		return context.WithValue(context.Background(), ContextHeaderKey{}, map[string]string{
-			key: val,
-		})
-	}
-	at, ok := ctx.Value(ContextHeaderKey{}).(map[string]string)
-	if !ok {
-		openlog.Debug("context header key does not has map, re-create new context")
-		return context.WithValue(ctx, ContextHeaderKey{}, map[string]string{
-			key: val,
-		})
-	}
-	at[key] = val
-	return ctx
+	_ = "STUB: not implemented"
+	return *new(context.Context)
 }
 
 // FromContext return the headers which should be send to provider
 // through transport
-func FromContext(ctx context.Context) map[string]string {
-	if ctx == nil {
-		return make(map[string]string)
-	}
-	at, ok := ctx.Value(ContextHeaderKey{}).(map[string]string)
-	if !ok {
-		return make(map[string]string)
-	}
-	return at
-}
+func FromContext(ctx context.Context) map[string]string { _ = "STUB: not implemented"; return nil }
 
 // GetXCSEContext  get x-cse-context from req.header
-func GetXCSEContext(k string, r *http.Request) string {
-	if r == nil || r.Header == nil {
-		openlog.Debug("get x-cse-header failed , request(request.Header) is nil or  key is empty, please check its")
-		return ""
-	}
-	cseContextStr := r.Header.Get(HeaderXCseContent)
-	if cseContextStr == "" {
-		return r.Header.Get(k)
-	}
-
-	var m map[string]string
-	err := json.Unmarshal([]byte(cseContextStr), &m)
-	if err != nil {
-		openlog.Debug(fmt.Sprintf("get x-cse-header form req failed , error : %v", err))
-		return ""
-	}
-	return m[k]
-}
+func GetXCSEContext(k string, r *http.Request) string { _ = "STUB: not implemented"; return "" }
 
 // SetXCSEContext  set value into x-cse-context
-func SetXCSEContext(vm map[string]string, r *http.Request) {
-	if len(vm) <= 0 || vm == nil || r == nil {
-		openlog.Debug("set x-cse-header into req failed ,because one of key,value and request is empty(nil) or all empty(nil)")
-		return
-	}
-	if r.Header == nil {
-		r.Header = make(map[string][]string)
-	}
-	b, err := json.Marshal(vm)
-	if err != nil {
-		openlog.Debug(fmt.Sprintf("set value to x-cse-context failed , error : %s", err))
-		return
-	}
-	r.Header.Set(HeaderXCseContent, string(b))
-}
+func SetXCSEContext(vm map[string]string, r *http.Request) { _ = "STUB: not implemented"; return }

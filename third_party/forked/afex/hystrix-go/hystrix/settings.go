@@ -66,112 +66,39 @@ func init() {
 }
 
 // Configure applies settings for a set of circuits
-func Configure(cmds map[string]CommandConfig) {
-	for k, v := range cmds {
-		ConfigureCommand(k, v)
-	}
-}
+func Configure(cmds map[string]CommandConfig) { _ = "STUB: not implemented"; return }
 
 type CommandConfigOption func(*CommandConfig)
 
 // 新建一个CommandConfig返回
 func NewCommandConfig(opt ...CommandConfigOption) CommandConfig {
-	cmdconfig := CommandConfig{}
-
-	for _, o := range opt {
-		o(&cmdconfig)
-	}
-
-	return cmdconfig
+	_ = "STUB: not implemented"
+	return *new(CommandConfig)
 }
 
 func WithMaxRequests(maxrequests int) CommandConfigOption {
-	return func(c *CommandConfig) {
-		c.MaxConcurrentRequests = maxrequests
-	}
+	_ = "STUB: not implemented"
+	return *new(CommandConfigOption)
 }
 
 func WithVolumeThreshold(volumethreshold int) CommandConfigOption {
-	return func(c *CommandConfig) {
-		c.RequestVolumeThreshold = volumethreshold
-	}
+	_ = "STUB: not implemented"
+	return *new(CommandConfigOption)
 }
 
 func WithSleepWindow(sleepwindow int) CommandConfigOption {
-	return func(c *CommandConfig) {
-		c.SleepWindow = sleepwindow
-	}
+	_ = "STUB: not implemented"
+	return *new(CommandConfigOption)
 }
 
 func WithErrorPercent(errorpercent int) CommandConfigOption {
-	return func(c *CommandConfig) {
-		c.ErrorPercentThreshold = errorpercent
-	}
+	_ = "STUB: not implemented"
+	return *new(CommandConfigOption)
 }
 
 // ConfigureCommand applies settings for a circuit
-func ConfigureCommand(name string, config CommandConfig) {
+func ConfigureCommand(name string, config CommandConfig) { _ = "STUB: not implemented"; return }
 
-	settingsMutex.Lock()
-	defer settingsMutex.Unlock()
+func getSettings(name string) *Settings { _ = "STUB: not implemented"; return nil }
 
-	ConsumerNum := DefaultMetricsConsumerNum
-	if config.MetricsConsumerNum != 0 {
-		ConsumerNum = config.MetricsConsumerNum
-	}
-	max := DefaultMaxConcurrent
-	if config.MaxConcurrentRequests != 0 {
-		max = config.MaxConcurrentRequests
-	}
-
-	volume := DefaultVolumeThreshold
-	if config.RequestVolumeThreshold != 0 {
-		volume = config.RequestVolumeThreshold
-	}
-
-	sleep := DefaultSleepWindow
-	if config.SleepWindow != 0 {
-		sleep = config.SleepWindow
-	}
-
-	errorPercent := DefaultErrorPercentThreshold
-	if config.ErrorPercentThreshold != 0 {
-		errorPercent = config.ErrorPercentThreshold
-	}
-	circuitSettings[name] = &Settings{
-		ForceClose:             config.ForceClose,
-		ForceOpen:              config.ForceOpen,
-		CircuitBreakerEnabled:  config.CircuitBreakerEnabled,
-		MaxConcurrentRequests:  max,
-		RequestVolumeThreshold: uint64(volume),
-		SleepWindow:            time.Duration(sleep) * time.Millisecond,
-		ErrorPercentThreshold:  errorPercent,
-		ForceFallback:          config.ForceFallback,
-		MetricsConsumerNum:     ConsumerNum,
-	}
-}
-
-func getSettings(name string) *Settings {
-	settingsMutex.RLock()
-	s, exists := circuitSettings[name]
-	settingsMutex.RUnlock()
-
-	if !exists {
-		ConfigureCommand(name, CommandConfig{})
-		s = getSettings(name)
-	}
-
-	return s
-}
-
-func GetCircuitSettings() map[string]*Settings {
-	copy := make(map[string]*Settings)
-
-	settingsMutex.RLock()
-	for key, val := range circuitSettings {
-		copy[key] = val
-	}
-	settingsMutex.RUnlock()
-
-	return copy
-}
+func GetCircuitSettings() map[string]*Settings { _ = "STUB: not implemented"; return nil }

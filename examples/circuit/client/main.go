@@ -3,7 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+
 	"github.com/go-chassis/openlog"
+
+	"time"
 
 	"github.com/go-chassis/go-chassis/v2"
 	_ "github.com/go-chassis/go-chassis/v2/bootstrap"
@@ -11,7 +14,6 @@ import (
 	"github.com/go-chassis/go-chassis/v2/core"
 	"github.com/go-chassis/go-chassis/v2/core/common"
 	"github.com/go-chassis/go-chassis/v2/pkg/util/httputil"
-	"time"
 )
 
 // if you use go run main.go instead of binary run, plz export CHASSIS_HOME=/{path}/{to}/rest/client/

@@ -22,11 +22,7 @@ import "github.com/go-chassis/cari/security"
 var defaultCipher security.Cipher
 
 // Decrypt do not guarantee concurrency-safety, it depends on the plugin implementation.
-func Decrypt(src string) (string, error) {
-	return defaultCipher.Decrypt(src)
-}
+func Decrypt(src string) (string, error) { _ = "STUB: not implemented"; return "", nil }
 
 // Encrypt do not guarantee concurrency-safety, it depends on the plugin implementation.
-func Encrypt(src string) (string, error) {
-	return defaultCipher.Encrypt(src)
-}
+func Encrypt(src string) (string, error) { _ = "STUB: not implemented"; return "", nil }

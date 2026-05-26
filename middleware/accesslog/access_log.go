@@ -4,14 +4,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/emicklei/go-restful"
 	"github.com/go-chassis/openlog"
 
 	"github.com/go-chassis/go-chassis/v2/core/handler"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
 	"github.com/go-chassis/go-chassis/v2/core/lager"
 	"github.com/go-chassis/go-chassis/v2/initiator"
-	"github.com/go-chassis/go-chassis/v2/pkg/util/iputil"
 )
 
 // Record recorder
@@ -64,9 +62,7 @@ func init() {
 }
 
 // Use support customize recorder
-func Use(record Record) {
-	instance.record = record
-}
+func Use(record Record) { _ = "STUB: not implemented"; return }
 
 type accessLog struct {
 	record func(time.Time, *invocation.Invocation)
@@ -74,21 +70,14 @@ type accessLog struct {
 
 // Handle ...
 func (a *accessLog) Handle(chain *handler.Chain, i *invocation.Invocation, cb invocation.ResponseCallBack) {
-	now := time.Now()
-	chain.Next(i, func(response *invocation.Response) {
-		cb(response)
-		a.record(now, i)
-	})
+	_ = "STUB: not implemented"
+	return
 }
 
 // Name ...
-func (a *accessLog) Name() string {
-	return handlerNameAccessLog
-}
+func (a *accessLog) Name() string { _ = "STUB: not implemented"; return "" }
 
 func restfulRecord(startTime time.Time, i *invocation.Invocation) {
-	req := i.Args.(*restful.Request)
-	resp := i.Reply.(*restful.Response)
-	log.Info(fmt.Sprintf("%s %s from %s %d %dms", req.Request.Method, req.Request.URL.String(),
-		iputil.ClientIP(req.Request), resp.StatusCode(), time.Since(startTime).Nanoseconds()/1000000))
+	_ = "STUB: not implemented"
+	return
 }

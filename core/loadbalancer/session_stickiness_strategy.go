@@ -3,10 +3,8 @@ package loadbalancer
 import (
 	"sync"
 
-	"github.com/go-chassis/go-chassis/v2/core/common"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
 	"github.com/go-chassis/go-chassis/v2/core/registry"
-	"github.com/go-chassis/go-chassis/v2/session"
 )
 
 var (
@@ -21,39 +19,18 @@ func init() {
 }
 
 // DeleteSuccessiveFailureCount deleting cookie from failure count map
-func DeleteSuccessiveFailureCount(cookieValue string) {
-	successiveFailureCountMutex.Lock()
-	//	successiveFailureCount[ep] = 0
-	delete(successiveFailureCount, cookieValue)
-	successiveFailureCountMutex.Unlock()
-}
+func DeleteSuccessiveFailureCount(cookieValue string) { _ = "STUB: not implemented"; return }
+
+//	successiveFailureCount[ep] = 0
 
 // ResetSuccessiveFailureMap make map again
-func ResetSuccessiveFailureMap() {
-	successiveFailureCountMutex.Lock()
-	successiveFailureCount = make(map[string]int)
-	successiveFailureCountMutex.Unlock()
-}
+func ResetSuccessiveFailureMap() { _ = "STUB: not implemented"; return }
 
 // IncreaseSuccessiveFailureCount increase failure count
-func IncreaseSuccessiveFailureCount(cookieValue string) {
-	successiveFailureCountMutex.Lock()
-	c, ok := successiveFailureCount[cookieValue]
-	if ok {
-		successiveFailureCount[cookieValue] = c + 1
-		successiveFailureCountMutex.Unlock()
-		return
-	}
-	successiveFailureCount[cookieValue] = 1
-	successiveFailureCountMutex.Unlock()
-}
+func IncreaseSuccessiveFailureCount(cookieValue string) { _ = "STUB: not implemented"; return }
 
 // GetSuccessiveFailureCount get failure count
-func GetSuccessiveFailureCount(cookieValue string) int {
-	successiveFailureCountMutex.RLock()
-	defer successiveFailureCountMutex.RUnlock()
-	return successiveFailureCount[cookieValue]
-}
+func GetSuccessiveFailureCount(cookieValue string) int { _ = "STUB: not implemented"; return 0 }
 
 // SessionStickinessStrategy is strategy
 type SessionStickinessStrategy struct {
@@ -62,53 +39,26 @@ type SessionStickinessStrategy struct {
 	sessionID string
 }
 
-func newSessionStickinessStrategy() Strategy {
-	return &SessionStickinessStrategy{}
-}
+func newSessionStickinessStrategy() Strategy { _ = "STUB: not implemented"; return *new(Strategy) }
 
 // ReceiveData receive data
 func (r *SessionStickinessStrategy) ReceiveData(inv *invocation.Invocation, instances []*registry.MicroServiceInstance, serviceName string) {
-	r.instances = instances
-	r.sessionID = session.GetSessionID(getNamespace(inv))
+	_ = "STUB: not implemented"
+	return
 }
-func getNamespace(i *invocation.Invocation) string {
-	if metadata, ok := i.Metadata[common.SessionNameSpaceKey]; ok {
-		if v, ok := metadata.(string); ok {
-			return v
-		}
-	}
-	return common.SessionNameSpaceDefaultValue
-}
+
+func getNamespace(i *invocation.Invocation) string { _ = "STUB: not implemented"; return "" }
 
 // Pick return instance
 func (r *SessionStickinessStrategy) Pick() (*registry.MicroServiceInstance, error) {
-	instanceAddr, ok := session.Get(r.sessionID)
-	if ok {
-		if len(r.instances) == 0 {
-			return nil, ErrNoneAvailableInstance
-		}
-
-		for _, instance := range r.instances {
-			if instanceAddr == instance.EndpointsMap[instance.DefaultProtocol] {
-				return instance, nil
-			}
-		}
-		// if micro service instance goes down then related entry in endpoint map will be deleted,
-		//so instead of sending nil, a new instance can be selected using round robin
-		return r.pick()
-	}
-	return r.pick()
-
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// if micro service instance goes down then related entry in endpoint map will be deleted,
+//so instead of sending nil, a new instance can be selected using round robin
+
 func (r *SessionStickinessStrategy) pick() (*registry.MicroServiceInstance, error) {
-	if len(r.instances) == 0 {
-		return nil, ErrNoneAvailableInstance
-	}
-
-	r.mtx.Lock()
-	instance := r.instances[i%len(r.instances)]
-	i++
-	r.mtx.Unlock()
-
-	return instance, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }

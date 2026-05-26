@@ -1,29 +1,26 @@
 package config
 
-import (
-	"github.com/go-chassis/foundation/stringutil"
-	"gopkg.in/yaml.v2"
-)
-
 // OneServiceRule save route rule for one service
 type OneServiceRule []*RouteRule
 
 // Len return the length of rule
 func (o OneServiceRule) Len() int {
-	return len(o)
+	_ = "STUB: not implemented"
+
+	// Value return the rule
+	return 0
 }
 
-// Value return the rule
 func (o OneServiceRule) Value() []*RouteRule {
-	return o
+	_ = "STUB: not implemented"
+
+	// NewServiceRule create a rule by raw data
+	return nil
 }
 
-// NewServiceRule create a rule by raw data
 func NewServiceRule(raw string) (*OneServiceRule, error) {
-	b := stringutil.Str2bytes(raw)
-	r := &OneServiceRule{}
-	err := yaml.Unmarshal(b, r)
-	return r, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // ServiceComb hold all config items

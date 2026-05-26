@@ -1,8 +1,6 @@
 package fileutil
 
 import (
-	"os"
-	"path/filepath"
 	"sync"
 )
 
@@ -45,112 +43,58 @@ var homeDir string
 var once sync.Once
 
 // GetWorkDir is a function used to get the working directory
-func GetWorkDir() (string, error) {
-	wd, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		return "", err
-	}
-	return wd, nil
-}
+func GetWorkDir() (string, error) { _ = "STUB: not implemented"; return "", nil }
 
-func initDir() {
-	if h := os.Getenv(ChassisHome); h != "" {
-		homeDir = h
-	} else {
-		wd, err := GetWorkDir()
-		if err != nil {
-			panic(err)
-		}
-		homeDir = wd
-	}
+func initDir() { _ = "STUB: not implemented"; return }
 
-	// set conf dir, CHASSIS_CONF_DIR has highest priority
-	if confDir := os.Getenv(ChassisConfDir); confDir != "" {
-		configDir = confDir
-	} else {
-		// CHASSIS_HOME has second most high priority
-		configDir = filepath.Join(homeDir, "conf")
-	}
-}
+// set conf dir, CHASSIS_CONF_DIR has highest priority
+
+// CHASSIS_HOME has second most high priority
 
 // ChassisHomeDir is function used to get the home directory of chassis
-func ChassisHomeDir() string {
-	once.Do(initDir)
-	return homeDir
-}
+func ChassisHomeDir() string { _ = "STUB: not implemented"; return "" }
 
 // GetConfDir is a function used to get the configuration directory
-func GetConfDir() string {
-	initDir()
-	return configDir
-}
+func GetConfDir() string { _ = "STUB: not implemented"; return "" }
 
 // CircuitBreakerConfigPath is a function used to join .yaml file name with configuration path
-func CircuitBreakerConfigPath() string {
-	return filepath.Join(GetConfDir(), Hystric)
-}
+func CircuitBreakerConfigPath() string { _ = "STUB: not implemented"; return "" }
 
 // GetDefinition is a function used to join .yaml file name with configuration path
-func GetDefinition() string {
-	return filepath.Join(GetConfDir(), Definition)
-}
+func GetDefinition() string { _ = "STUB: not implemented"; return "" }
 
 // LoadBalancingConfigPath is a function used to join .yaml file name with configuration directory
-func LoadBalancingConfigPath() string {
-	return filepath.Join(GetConfDir(), LoadBalancing)
-}
+func LoadBalancingConfigPath() string { _ = "STUB: not implemented"; return "" }
 
 // RateLimitingFile is a function used to join .yaml file name with configuration directory
-func RateLimitingFile() string {
-	return filepath.Join(GetConfDir(), RateLimiting)
-}
+func RateLimitingFile() string { _ = "STUB: not implemented"; return "" }
 
 // TLSConfigPath is a function used to join .yaml file name with configuration directory
-func TLSConfigPath() string {
-	return filepath.Join(GetConfDir(), TLS)
-}
+func TLSConfigPath() string { _ = "STUB: not implemented"; return "" }
 
 // MonitoringConfigPath is a function used to join .yaml file name with configuration directory
-func MonitoringConfigPath() string {
-	return filepath.Join(GetConfDir(), Monitoring)
-}
+func MonitoringConfigPath() string { _ = "STUB: not implemented"; return "" }
 
 // MicroserviceDefinition is a function used to join .yaml file name with configuration directory
-func MicroserviceDefinition(microserviceName string) string {
-	return filepath.Join(GetConfDir(), microserviceName, Definition)
-}
+func MicroserviceDefinition(microserviceName string) string { _ = "STUB: not implemented"; return "" }
 
 // MicroServiceConfigPath is a function used to join .yaml file name with configuration directory
-func MicroServiceConfigPath() string {
-	return filepath.Join(GetConfDir(), Definition)
-}
+func MicroServiceConfigPath() string { _ = "STUB: not implemented"; return "" }
 
 // GlobalConfigPath is a function used to join .yaml file name with configuration directory
-func GlobalConfigPath() string {
-	return filepath.Join(GetConfDir(), Global)
-}
+func GlobalConfigPath() string { _ = "STUB: not implemented"; return "" }
 
 // LogConfigPath is a function used to join .yaml file name with configuration directory
-func LogConfigPath() string {
-	return filepath.Join(GetConfDir(), PaasLager)
-}
+func LogConfigPath() string { _ = "STUB: not implemented"; return "" }
 
 // RouterConfigPath is a function used to join .yaml file name with configuration directory
-func RouterConfigPath() string {
-	return filepath.Join(GetConfDir(), Router)
-}
+func RouterConfigPath() string { _ = "STUB: not implemented"; return "" }
 
 // AuthConfigPath is a function used to join .yaml file name with configuration directory
-func AuthConfigPath() string {
-	return filepath.Join(GetConfDir(), Auth)
-}
+func AuthConfigPath() string { _ = "STUB: not implemented"; return "" }
 
 // TracingPath is a function used to join .yaml file name with configuration directory
-func TracingPath() string {
-	return filepath.Join(GetConfDir(), Tracing)
-}
+func TracingPath() string { _ = "STUB: not implemented"; return "" }
 
 // SchemaDir is a function used to join .yaml file name with configuration path
-func SchemaDir(microserviceName string) string {
-	return filepath.Join(GetConfDir(), microserviceName, SchemaDirectory)
-}
+func SchemaDir(microserviceName string) string { _ = "STUB: not implemented"; return "" }

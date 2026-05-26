@@ -26,11 +26,7 @@ type Options struct {
 type Option func(options *Options)
 
 // WithPlugin specify plugin name
-func WithPlugin(p string) Option {
-	return func(options *Options) {
-		options.Plugin = p
-	}
-}
+func WithPlugin(p string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
 // Options is a struct to stores options
 type LoginOptions struct {
@@ -41,8 +37,4 @@ type LoginOptions struct {
 type LoginOption func(options *LoginOptions)
 
 // ExpireAfter specify time duration, for example: 3d, 3m, 1s, 3h
-func ExpireAfter(p string) LoginOption {
-	return func(options *LoginOptions) {
-		options.ExpireAfter = p
-	}
-}
+func ExpireAfter(p string) LoginOption { _ = "STUB: not implemented"; return *new(LoginOption) }

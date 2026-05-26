@@ -37,15 +37,7 @@ type Option func(options *Options)
 
 // WithExpTime generate a token which expire after a duration
 // for example 5s,1m,24h
-func WithExpTime(exp string) Option {
-	return func(options *Options) {
-		options.Expire = exp
-	}
-}
+func WithExpTime(exp string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
 // WithSigningMethod specify the sign method
-func WithSigningMethod(m SigningMethod) Option {
-	return func(options *Options) {
-		options.SigningMethod = m
-	}
-}
+func WithSigningMethod(m SigningMethod) Option { _ = "STUB: not implemented"; return *new(Option) }

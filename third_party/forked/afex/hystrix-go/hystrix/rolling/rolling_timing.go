@@ -1,8 +1,6 @@
 package rolling
 
 import (
-	"math"
-	"sort"
 	"sync"
 	"time"
 )
@@ -23,127 +21,40 @@ type timingBucket struct {
 }
 
 // NewTiming creates a RollingTiming struct.
-func NewTiming() *Timing {
-	r := &Timing{
-		Buckets: make(map[int64]*timingBucket),
-		Mutex:   &sync.RWMutex{},
-	}
-	return r
-}
+func NewTiming() *Timing { _ = "STUB: not implemented"; return nil }
 
 type byDuration []time.Duration
 
-func (c byDuration) Len() int           { return len(c) }
-func (c byDuration) Swap(i, j int)      { c[i], c[j] = c[j], c[i] }
-func (c byDuration) Less(i, j int) bool { return c[i] < c[j] }
+func (c byDuration) Len() int      { _ = "STUB: not implemented"; return 0 }
+func (c byDuration) Swap(i, j int) { _ = "STUB: not implemented"; return }
+func (c byDuration) Less(i, j int) bool {
+	_ = "STUB: not implemented"
 
-// SortedDurations returns an array of time.Duration sorted from shortest
-// to longest that have occurred in the last 60 seconds.
-func (r *Timing) SortedDurations() []time.Duration {
-	r.Mutex.RLock()
-	t := r.LastCachedTime
-	r.Mutex.RUnlock()
-
-	if t+time.Duration(1*time.Second).Nanoseconds() > time.Now().UnixNano() {
-		// don't recalculate if current cache is still fresh
-		return r.CachedSortedDurations
-	}
-
-	var durations byDuration
-	now := time.Now()
-
-	r.Mutex.Lock()
-	defer r.Mutex.Unlock()
-
-	for timestamp, b := range r.Buckets {
-		// TODO: configurable rolling window
-		if timestamp >= now.Unix()-60 {
-			for _, d := range b.Durations {
-				durations = append(durations, d)
-			}
-		}
-	}
-
-	sort.Sort(durations)
-
-	r.CachedSortedDurations = durations
-	r.LastCachedTime = time.Now().UnixNano()
-
-	return r.CachedSortedDurations
+	// SortedDurations returns an array of time.Duration sorted from shortest
+	// to longest that have occurred in the last 60 seconds.
+	return false
 }
 
-func (r *Timing) getCurrentBucket() *timingBucket {
-	r.Mutex.RLock()
-	now := time.Now()
-	bucket, exists := r.Buckets[now.Unix()]
-	r.Mutex.RUnlock()
+func (r *Timing) SortedDurations() []time.Duration { _ = "STUB: not implemented"; return nil }
 
-	if !exists {
-		r.Mutex.Lock()
-		defer r.Mutex.Unlock()
+// don't recalculate if current cache is still fresh
 
-		r.Buckets[now.Unix()] = &timingBucket{}
-		bucket = r.Buckets[now.Unix()]
-	}
+// TODO: configurable rolling window
 
-	return bucket
-}
+func (r *Timing) getCurrentBucket() *timingBucket { _ = "STUB: not implemented"; return nil }
 
-func (r *Timing) removeOldBuckets() {
-	now := time.Now()
+func (r *Timing) removeOldBuckets() { _ = "STUB: not implemented"; return }
 
-	for timestamp := range r.Buckets {
-		// TODO: configurable rolling window
-		if timestamp <= now.Unix()-60 {
-			delete(r.Buckets, timestamp)
-		}
-	}
-}
+// TODO: configurable rolling window
 
 // Add appends the time.Duration given to the current time bucket.
-func (r *Timing) Add(duration time.Duration) {
-	b := r.getCurrentBucket()
-
-	r.Mutex.Lock()
-	defer r.Mutex.Unlock()
-
-	b.Durations = append(b.Durations, duration)
-	r.removeOldBuckets()
-}
+func (r *Timing) Add(duration time.Duration) { _ = "STUB: not implemented"; return }
 
 // Percentile computes the percentile given with a linear interpolation.
 // it returns million seconds
-func (r *Timing) Percentile(p float64) uint32 {
-	sortedDurations := r.SortedDurations()
-	length := len(sortedDurations)
-	if length <= 0 {
-		return 0
-	}
+func (r *Timing) Percentile(p float64) uint32 { _ = "STUB: not implemented"; return 0 }
 
-	pos := r.ordinal(len(sortedDurations), p) - 1
-	return uint32(sortedDurations[pos].Nanoseconds() / 1000000)
-}
-
-func (r *Timing) ordinal(length int, percentile float64) int64 {
-	if percentile == 0 && length > 0 {
-		return 1
-	}
-
-	return int64(math.Ceil((percentile / float64(100)) * float64(length)))
-}
+func (r *Timing) ordinal(length int, percentile float64) int64 { _ = "STUB: not implemented"; return 0 }
 
 // Mean computes the average timing in the last 60 seconds.
-func (r *Timing) Mean() uint32 {
-	sortedDurations := r.SortedDurations()
-	var sum time.Duration
-	for _, d := range sortedDurations {
-		sum += d
-	}
-
-	length := int64(len(sortedDurations))
-	if length == 0 {
-		return 0
-	}
-
-	return uint32(sum.Nanoseconds()/length) / 1000000
-}
+func (r *Timing) Mean() uint32 { _ = "STUB: not implemented"; return 0 }

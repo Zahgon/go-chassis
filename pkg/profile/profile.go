@@ -4,8 +4,6 @@ import (
 	"github.com/emicklei/go-restful"
 	"github.com/go-chassis/go-chassis/v2/core/config"
 	"github.com/go-chassis/go-chassis/v2/core/registry"
-	"github.com/go-chassis/go-chassis/v2/core/router"
-	"github.com/go-chassis/openlog"
 )
 
 // const
@@ -21,41 +19,27 @@ type Profile struct {
 
 // HTTPHandleRouteRuleFunc is a go-restful handler which can expose profile of route rule in http server
 func HTTPHandleRouteRuleFunc(req *restful.Request, rep *restful.Response) {
-	if err := rep.WriteAsJson(listRouteRule()); err != nil {
-		openlog.Error(msgWriteError + err.Error())
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // HTTPHandleDiscoveryFunc is a go-restful handler which can expose profile of discovery in http server
 func HTTPHandleDiscoveryFunc(req *restful.Request, rep *restful.Response) {
-	if err := rep.WriteAsJson(listMicroServiceInstance()); err != nil {
-		openlog.Error(msgWriteError + err.Error())
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 // HTTPHandleProfileFunc is a go-restful handler which can expose all profiles in http server
 func HTTPHandleProfileFunc(req *restful.Request, rep *restful.Response) {
-	if err := rep.WriteAsJson(newProfile()); err != nil {
-		openlog.Error(msgWriteError + err.Error())
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func newProfile() Profile {
-	return Profile{
-		RouteRule: listRouteRule(),
-		Discovery: listMicroServiceInstance(),
-	}
-}
+func newProfile() Profile { _ = "STUB: not implemented"; return *new(Profile) }
 
-func listRouteRule() map[string][]*config.RouteRule {
-	return router.DefaultRouter.ListRouteRule()
-}
+func listRouteRule() map[string][]*config.RouteRule { _ = "STUB: not implemented"; return nil }
 
 func listMicroServiceInstance() map[string][]*registry.MicroServiceInstance {
-	items := registry.MicroserviceInstanceIndex.FullCache().Items()
-	m := make(map[string][]*registry.MicroServiceInstance)
-	for k, v := range items {
-		m[k] = v.Object.([]*registry.MicroServiceInstance)
-	}
-	return m
+	_ = "STUB: not implemented"
+	return nil
 }

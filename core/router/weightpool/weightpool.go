@@ -3,7 +3,6 @@ package weightpool
 import (
 	"sync"
 
-	"github.com/go-chassis/go-chassis/v2/core/common"
 	"github.com/go-chassis/go-chassis/v2/core/config"
 )
 
@@ -13,35 +12,26 @@ var once sync.Once
 func init() { once.Do(func() { weightPool = &SafePool{pool: map[string]*Pool{}} }) }
 
 // GetPool returns singleton of weightPool
-func GetPool() *SafePool { return weightPool }
+func GetPool() *SafePool {
+	_ = "STUB: not implemented"
 
-// SafePool is a cache for pool of all destination
+	// SafePool is a cache for pool of all destination
+	return nil
+}
+
 type SafePool struct {
 	sync.RWMutex
 	pool map[string]*Pool
 }
 
 // Get returns specific pool for key
-func (s *SafePool) Get(key string) (*Pool, bool) {
-	s.RLock()
-	value, ok := s.pool[key]
-	s.RUnlock()
-	return value, ok
-}
+func (s *SafePool) Get(key string) (*Pool, bool) { _ = "STUB: not implemented"; return nil, false }
 
 // Set can set pool to safe cache
-func (s *SafePool) Set(key string, value *Pool) {
-	s.Lock()
-	s.pool[key] = value
-	s.Unlock()
-}
+func (s *SafePool) Set(key string, value *Pool) { _ = "STUB: not implemented"; return }
 
 // Reset can delete pool for specific key
-func (s *SafePool) Reset(key string) {
-	s.Lock()
-	delete(s.pool, key)
-	s.Unlock()
-}
+func (s *SafePool) Reset(key string) { _ = "STUB: not implemented"; return }
 
 // Pool defines sets of weighted tags
 type Pool struct {
@@ -56,70 +46,11 @@ type Pool struct {
 }
 
 // NewPool returns pool for provided tags
-func NewPool(routeTags ...*config.RouteTag) *Pool {
-	var total int
-	p := &Pool{tags: make([]config.RouteTag, len(routeTags))}
-	for i, t := range routeTags {
-		if t.Weight > 0 {
-			total += t.Weight
-			p.refreshGCD(t)
-		}
-		p.tags[i] = *t
-	}
-
-	if total < 100 {
-		latestT := config.RouteTag{
-			Weight: 100 - total,
-			Tags: map[string]string{
-				common.BuildinTagVersion: common.LatestVersion,
-			},
-			Label: common.BuildinLabelVersion,
-		}
-		p.refreshGCD(&latestT)
-		p.tags = append(p.tags, latestT)
-	}
-
-	p.num = len(p.tags)
-	return p
-}
+func NewPool(routeTags ...*config.RouteTag) *Pool { _ = "STUB: not implemented"; return nil }
 
 // PickOne returns tag according to its weight
-func (p *Pool) PickOne() *config.RouteTag {
-	if p.num == 0 || p.max == 0 {
-		return nil
-	}
-	if p.num == 1 {
-		return &p.tags[0]
-	}
+func (p *Pool) PickOne() *config.RouteTag { _ = "STUB: not implemented"; return nil }
 
-	p.mu.Lock()
-	defer p.mu.Unlock()
+func (p *Pool) refreshGCD(t *config.RouteTag) { _ = "STUB: not implemented"; return }
 
-	for {
-		p.i = (p.i + 1) % p.num
-		if p.i == 0 {
-			p.cw = p.cw - p.gcd
-			if p.cw <= 0 {
-				p.cw = p.max
-			}
-		}
-
-		if p.tags[p.i].Weight >= p.cw {
-			return &p.tags[p.i]
-		}
-	}
-}
-
-func (p *Pool) refreshGCD(t *config.RouteTag) {
-	p.gcd = gcd(p.gcd, t.Weight)
-	if p.max < t.Weight {
-		p.max = t.Weight
-	}
-}
-
-func gcd(a, b int) int {
-	if b == 0 {
-		return a
-	}
-	return gcd(b, a%b)
-}
+func gcd(a, b int) int { _ = "STUB: not implemented"; return 0 }

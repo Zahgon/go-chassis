@@ -17,26 +17,9 @@
 
 package governance
 
-import (
-	"errors"
-	"github.com/go-chassis/go-chassis/v2/core/marker"
-	"github.com/go-chassis/go-chassis/v2/resilience/rate"
-	"github.com/go-chassis/openlog"
-	"gopkg.in/yaml.v2"
-	"strings"
-)
-
 // ProcessMatch saves all policy to match module
 // then match module is able to mark invocation
-func ProcessMatch(key string, value string) error {
-	s := strings.Split(key, ".")
-	if len(s) != 3 {
-		openlog.Warn("invalid key:" + key)
-		return errors.New("invalid key:" + key)
-	}
-	name := s[2]
-	return marker.SaveMatchPolicy(name, value, key)
-}
+func ProcessMatch(key string, value string) error { _ = "STUB: not implemented"; return nil }
 
 type LimiterPolicy struct {
 	MatchPolicyName string `yaml:"match"`
@@ -46,20 +29,6 @@ type LimiterPolicy struct {
 
 // ProcessLimiter saves limiter, after a invocation is marked,
 // go chassis will get correspond limiter with mark name
-func ProcessLimiter(key string, value string) error {
-	s := strings.Split(key, ".")
-	if len(s) != 3 {
-		openlog.Warn("invalid key:" + key)
-		return errors.New("invalid key:" + key)
-	}
-	policy := &LimiterPolicy{}
-	err := yaml.Unmarshal([]byte(value), policy)
-	if err != nil {
-		openlog.Error("invalid limiter: " + key)
-		return err
-	}
+func ProcessLimiter(key string, value string) error { _ = "STUB: not implemented"; return nil }
 
-	//key is the match policy name, also marker tag
-	rate.GetRateLimiters().UpdateRateLimit(policy.MatchPolicyName, policy.Rate, policy.Burst)
-	return nil
-}
+//key is the match policy name, also marker tag

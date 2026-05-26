@@ -1,8 +1,6 @@
 package resource
 
 import (
-	"net/http"
-
 	rf "github.com/go-chassis/go-chassis/v2/server/restful"
 )
 
@@ -11,45 +9,27 @@ type RestFulHello struct {
 }
 
 // Hello
-func (r *RestFulHello) Hello(b *rf.Context) {
-	b.Write([]byte("hi from hello"))
-}
+func (r *RestFulHello) Hello(b *rf.Context) { _ = "STUB: not implemented"; return }
 
 // URLPatterns helps to respond for corresponding API calls
-func (r *RestFulHello) URLPatterns() []rf.Route {
-	return []rf.Route{
-		{Method: http.MethodGet, Path: "/hello", ResourceFunc: r.Hello},
-	}
-}
+func (r *RestFulHello) URLPatterns() []rf.Route { _ = "STUB: not implemented"; return nil }
 
 // Legacy is a struct
 type Legacy struct {
 }
 
 // Do
-func (r *Legacy) Do(b *rf.Context) {
-	b.Write([]byte("hello from legacy"))
-}
+func (r *Legacy) Do(b *rf.Context) { _ = "STUB: not implemented"; return }
 
 // URLPatterns helps to respond for corresponding API calls
-func (r *Legacy) URLPatterns() []rf.Route {
-	return []rf.Route{
-		{Method: http.MethodGet, Path: "/legacy", ResourceFunc: r.Do},
-	}
-}
+func (r *Legacy) URLPatterns() []rf.Route { _ = "STUB: not implemented"; return nil }
 
 // Legacy is a struct
 type Admin struct {
 }
 
 // Do
-func (r *Admin) Do(b *rf.Context) {
-	b.Write([]byte("hello from admin"))
-}
+func (r *Admin) Do(b *rf.Context) { _ = "STUB: not implemented"; return }
 
 // URLPatterns helps to respond for corresponding API calls
-func (r *Admin) URLPatterns() []rf.Route {
-	return []rf.Route{
-		{Method: http.MethodGet, Path: "/admin", ResourceFunc: r.Do},
-	}
-}
+func (r *Admin) URLPatterns() []rf.Route { _ = "STUB: not implemented"; return nil }

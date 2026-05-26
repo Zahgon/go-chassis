@@ -17,13 +17,13 @@ type Fault struct {
 }
 
 func (e Fault) Error() string {
-	return e.Message
+	_ = "STUB: not implemented"
+
+	// InstallFaultInjectionPlugin install fault injection plugin
+	return ""
 }
 
-// InstallFaultInjectionPlugin install fault injection plugin
-func InstallFaultInjectionPlugin(name string, f InjectFault) {
-	Injectors[name] = f
-}
+func InstallFaultInjectionPlugin(name string, f InjectFault) { _ = "STUB: not implemented"; return }
 
 func init() {
 	InstallFaultInjectionPlugin("rest", faultInject)
@@ -31,5 +31,6 @@ func init() {
 }
 
 func faultInject(rule model.Fault, inv *invocation.Invocation) error {
-	return ValidateAndApplyFault(&rule, inv)
+	_ = "STUB: not implemented"
+	return nil
 }

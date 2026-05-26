@@ -1,13 +1,8 @@
 package ratelimiter
 
 import (
-	"errors"
-	"github.com/go-chassis/go-chassis/v2/resilience/rate"
 	"github.com/go-chassis/openlog"
-	"net/http"
 
-	"github.com/go-chassis/go-chassis/v2/control"
-	"github.com/go-chassis/go-chassis/v2/core/common"
 	"github.com/go-chassis/go-chassis/v2/core/handler"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
 )
@@ -24,51 +19,25 @@ type ConsumerRateLimiterHandler struct{}
 
 // Handle is handles the consumer rate limiter APIs
 func (rl *ConsumerRateLimiterHandler) Handle(chain *handler.Chain, i *invocation.Invocation, cb invocation.ResponseCallBack) {
-	rlc := control.DefaultPanel.GetRateLimiting(*i, common.Consumer)
-	if !rlc.Enabled {
-		chain.Next(i, cb)
-
-		return
-	}
-	//qps rate <=0
-	if rlc.Rate <= 0 {
-		r := newErrResponse(i)
-		cb(r)
-		return
-	}
-	burst := rlc.Rate / 5
-	if burst == 0 {
-		burst = control.DefaultBurst
-	}
-	if rate.GetRateLimiters().TryAccept(rlc.Key, rlc.Rate, burst) {
-		chain.Next(i, cb)
-	} else {
-		r := newErrResponse(i)
-		cb(r)
-		return
-	}
-
+	_ = "STUB: not implemented"
+	return
 }
 
+//qps rate <=0
+
 func newErrResponse(i *invocation.Invocation) *invocation.Response {
-	switch resp := i.Reply.(type) {
-	case *http.Response:
-		resp.StatusCode = http.StatusTooManyRequests
-	}
-	r := &invocation.Response{}
-	r.Status = http.StatusTooManyRequests
-	r.Err = errors.New("too many requests")
-	return r
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func newConsumerRateLimiterHandler() handler.Handler {
-	return &ConsumerRateLimiterHandler{}
+	_ = "STUB: not implemented"
+	return *new(handler.Handler)
 }
 
 // Name returns name
-func (rl *ConsumerRateLimiterHandler) Name() string {
-	return "ratelimiter-consumer"
-}
+func (rl *ConsumerRateLimiterHandler) Name() string { _ = "STUB: not implemented"; return "" }
+
 func init() {
 	err := handler.RegisterHandler(Consumer, newConsumerRateLimiterHandler)
 	if err != nil {

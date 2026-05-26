@@ -29,16 +29,21 @@ func init() {
 	cipher.InstallCipherPlugin("default", new)
 }
 func new() security.Cipher {
+	_ = "STUB: not implemented"
+	return *
 
-	return &DefaultCipher{}
+	// Encrypt is method used for encryption
+	new(security.Cipher)
 }
 
-// Encrypt is method used for encryption
 func (c *DefaultCipher) Encrypt(src string) (string, error) {
-	return src, nil
+	_ = "STUB: not implemented"
+
+	// Decrypt is method used for decryption
+	return "", nil
 }
 
-// Decrypt is method used for decryption
 func (c *DefaultCipher) Decrypt(src string) (string, error) {
-	return src, nil
+	_ = "STUB: not implemented"
+	return "", nil
 }

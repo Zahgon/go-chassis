@@ -1,11 +1,8 @@
 package loadbalancer
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
-
-	"github.com/go-chassis/openlog"
 )
 
 var strategies = make(map[string]func() Strategy)
@@ -18,17 +15,10 @@ func init() {
 }
 
 // InstallStrategy install strategy
-func InstallStrategy(name string, s func() Strategy) {
-	strategies[name] = s
-	openlog.Info(fmt.Sprintf("installed strategy plugin: %s.", name))
-}
+func InstallStrategy(name string, s func() Strategy) { _ = "STUB: not implemented"; return }
 
 // GetStrategyPlugin get strategy plugin
 func GetStrategyPlugin(name string) (func() Strategy, error) {
-	s, ok := strategies[name]
-	if !ok {
-		return nil, fmt.Errorf("don't support strategyName [%s]", name)
-	}
-
-	return s, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }

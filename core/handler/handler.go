@@ -2,9 +2,7 @@ package handler
 
 import (
 	"errors"
-	"fmt"
 
-	"github.com/go-chassis/foundation/stringutil"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
 )
 
@@ -49,31 +47,15 @@ type Handler interface {
 
 // WriteBackErr write err and callback
 func WriteBackErr(err error, status int, cb invocation.ResponseCallBack) {
-	r := &invocation.Response{
-		Err:    err,
-		Status: status,
-	}
-	cb(r)
+	_ = "STUB: not implemented"
+	return
 }
 
 // RegisterHandler Let developer custom handler
-func RegisterHandler(name string, f func() Handler) error {
-	if stringutil.StringInSlice(name, buildIn) {
-		return errViolateBuildIn
-	}
-	_, ok := funcMap[name]
-	if ok {
-		return ErrDuplicatedHandler
-	}
-	funcMap[name] = f
-	return nil
-}
+func RegisterHandler(name string, f func() Handler) error { _ = "STUB: not implemented"; return nil }
 
 // CreateHandler create a new handler by name your registered
 func CreateHandler(name string) (Handler, error) {
-	f := funcMap[name]
-	if f == nil {
-		return nil, fmt.Errorf("don't have handler [%s]", name)
-	}
-	return f(), nil
+	_ = "STUB: not implemented"
+	return *new(Handler), nil
 }

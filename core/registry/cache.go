@@ -1,11 +1,6 @@
 package registry
 
 import (
-	"strings"
-
-	"github.com/go-chassis/go-chassis/v2/core/common"
-	"github.com/go-chassis/go-chassis/v2/pkg/runtime"
-	"github.com/go-chassis/openlog"
 	"github.com/patrickmn/go-cache"
 )
 
@@ -30,16 +25,10 @@ var SchemaServiceIndexedCache *cache.Cache
 // ProvidersMicroServiceCache  key: micro service  name and appId, value: []*MicroService
 var ProvidersMicroServiceCache *cache.Cache
 
-func initCache() *cache.Cache { return cache.New(DefaultExpireTime, 0) }
+func initCache() *cache.Cache { _ = "STUB: not implemented"; return nil }
 
 // EnableRegistryCache init caches
-func EnableRegistryCache() {
-	MicroserviceInstanceIndex = NewIndexCache()
-	ipIndexedCache = initCache()
-	SchemaServiceIndexedCache = initCache()
-	SchemaInterfaceIndexedCache = initCache()
-	ProvidersMicroServiceCache = initCache()
-}
+func EnableRegistryCache() { _ = "STUB: not implemented"; return }
 
 // CacheIndex is a unified local instances cache manager
 type CacheIndex interface {
@@ -51,49 +40,13 @@ type CacheIndex interface {
 }
 
 // SetIPIndex save ip index
-func SetIPIndex(ip string, si *SourceInfo) {
-	ipIndexedCache.Set(ip, si, 0)
-}
+func SetIPIndex(ip string, si *SourceInfo) { _ = "STUB: not implemented"; return }
 
 // GetIPIndex get ip corresponding source info
-func GetIPIndex(ip string) *SourceInfo {
-	cacheDatum, ok := ipIndexedCache.Get(ip)
-	if !ok {
-		return nil
-	}
-	si, ok := cacheDatum.(*SourceInfo)
-	if !ok {
-		return nil
-	}
-	return si
-}
+func GetIPIndex(ip string) *SourceInfo { _ = "STUB: not implemented"; return nil }
 
 // GetProvidersFromCache get local provider simpleCache
-func GetProvidersFromCache() []*MicroService {
-	microServices := make([]*MicroService, 0)
-	items := ProvidersMicroServiceCache.Items()
-	for _, item := range items {
-		microService, ok := item.Object.(MicroService)
-		if !ok {
-			openlog.Warn("not microService type")
-			continue
-		}
-		microService.Version = common.AllVersion
-		microServices = append(microServices, &microService)
-	}
-	return microServices
-}
+func GetProvidersFromCache() []*MicroService { _ = "STUB: not implemented"; return nil }
 
 // AddProviderToCache refresh provider simpleCache
-func AddProviderToCache(serverName, appID string) {
-	if appID == "" {
-		appID = runtime.App
-		if appID == "" {
-			appID = common.DefaultApp
-		}
-	}
-	key := strings.Join([]string{serverName, appID}, "|")
-	if _, ok := ProvidersMicroServiceCache.Get(key); !ok {
-		ProvidersMicroServiceCache.Set(key, MicroService{ServiceName: serverName, AppID: appID}, 0)
-	}
-}
+func AddProviderToCache(serverName, appID string) { _ = "STUB: not implemented"; return }

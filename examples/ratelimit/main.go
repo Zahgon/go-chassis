@@ -5,23 +5,15 @@ import (
 	_ "github.com/go-chassis/go-chassis/v2/middleware/ratelimiter"
 	"github.com/go-chassis/go-chassis/v2/server/restful"
 	"github.com/go-chassis/openlog"
-	"net/http"
 )
 
 type DemoResource struct {
 }
 
-func (r *DemoResource) Limit(b *restful.Context) {
-	b.ReadResponseWriter().WriteHeader(http.StatusOK)
-	b.ReadResponseWriter().Write([]byte("ok"))
-}
+func (r *DemoResource) Limit(b *restful.Context) { _ = "STUB: not implemented"; return }
 
 // URLPatterns returns routes
-func (r *DemoResource) URLPatterns() []restful.Route {
-	return []restful.Route{
-		{Method: http.MethodGet, Path: "/limit", ResourceFunc: r.Limit},
-	}
-}
+func (r *DemoResource) URLPatterns() []restful.Route { _ = "STUB: not implemented"; return nil }
 
 //if you use go run main.go instead of binary run, plz export CHASSIS_HOME=/{path}/{to}/{project_root}/
 

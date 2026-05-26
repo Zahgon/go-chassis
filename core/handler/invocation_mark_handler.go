@@ -18,9 +18,7 @@
 package handler
 
 import (
-	"github.com/go-chassis/go-chassis/v2/core/common"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
-	"github.com/go-chassis/go-chassis/v2/core/marker"
 )
 
 // TrafficMarker
@@ -33,22 +31,12 @@ type MarkHandler struct {
 }
 
 // Name return the handler name
-func (m *MarkHandler) Name() string {
-	return TrafficMarker
-}
+func (m *MarkHandler) Name() string { _ = "STUB: not implemented"; return "" }
 
 // Handle to handle the mart invocation
 func (m *MarkHandler) Handle(chain *Chain, inv *invocation.Invocation, cb invocation.ResponseCallBack) {
-	markInHeader := inv.Header(common.HeaderMark)
-	if markInHeader != "" {
-		inv.Mark(markInHeader)
-	} else {
-		marker.Mark(inv)
-	}
-
-	chain.Next(inv, cb)
+	_ = "STUB: not implemented"
+	return
 }
 
-func newMarkHandler() Handler {
-	return &MarkHandler{}
-}
+func newMarkHandler() Handler { _ = "STUB: not implemented"; return *new(Handler) }

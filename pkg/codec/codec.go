@@ -20,10 +20,7 @@
 package codec
 
 import (
-	"fmt"
-
 	"github.com/go-chassis/cari/codec"
-	"github.com/go-chassis/openlog"
 )
 
 type newCodec func(opts Options) (codec.Codec, error)
@@ -35,35 +32,11 @@ var plugins = map[string]newCodec{
 var defaultCodec codec.Codec = &StdJson{}
 
 // Install install codec plugin
-func Install(name string, f newCodec) {
-	plugins[name] = f
-	openlog.Info("installed codec plugin: " + name)
-}
+func Install(name string, f newCodec) { _ = "STUB: not implemented"; return }
 
 // Init init codec
-func Init(opts Options) error {
-	if opts.Plugin == "" {
-		return nil
-	}
+func Init(opts Options) error { _ = "STUB: not implemented"; return nil }
 
-	f, ok := plugins[opts.Plugin]
-	if !ok {
-		openlog.Warn(fmt.Sprintf("not supported [%s], use default json codec", opts.Plugin))
-		return nil
-	}
-	var err error
-	defaultCodec, err = f(opts)
-	if err != nil {
-		return err
-	}
-	openlog.Info(fmt.Sprintf("codec [%s] enabled", opts.Plugin))
-	return nil
-}
+func Encode(v any) ([]byte, error) { _ = "STUB: not implemented"; return nil, nil }
 
-func Encode(v any) ([]byte, error) {
-	return defaultCodec.Encode(v)
-}
-
-func Decode(data []byte, v any) error {
-	return defaultCodec.Decode(data, v)
-}
+func Decode(data []byte, v any) error { _ = "STUB: not implemented"; return nil }

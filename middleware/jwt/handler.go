@@ -19,17 +19,10 @@ package jwt
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
-	"strings"
 
-	"github.com/emicklei/go-restful"
-	"github.com/go-chassis/cari/rbac"
 	"github.com/go-chassis/go-chassis/v2/core/handler"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
-	"github.com/go-chassis/go-chassis/v2/core/status"
-	"github.com/go-chassis/go-chassis/v2/security/token"
-	restfulserver "github.com/go-chassis/go-chassis/v2/server/restful"
 	"github.com/go-chassis/openlog"
 )
 
@@ -45,68 +38,23 @@ type Handler struct {
 
 // Handle intercept unauthorized request
 func (h *Handler) Handle(chain *handler.Chain, i *invocation.Invocation, cb invocation.ResponseCallBack) {
-	if auth == nil {
-		//jwt is not initialized, then skip authentication, do not report error
-		chain.Next(i, cb)
-		return
-	}
-	var req *http.Request
-	if r, ok := i.Args.(*http.Request); ok {
-		req = r
-	} else if r, ok := i.Args.(*restful.Request); ok {
-		req = r.Request
-	} else {
-		openlog.Error(fmt.Sprintf("this handler only works for http request, wrong type: %t", i.Args))
-		return
-	}
-	if mustAuth(req) {
-		v := req.Header.Get(restfulserver.HeaderAuth)
-		if v == "" {
-			handler.WriteBackErr(ErrNoHeader, status.Status(i.Protocol, status.Unauthorized), cb)
-			return
-		}
-		s := strings.Split(v, " ")
-		if len(s) != 2 {
-			handler.WriteBackErr(ErrNoHeader, status.Status(i.Protocol, status.Unauthorized), cb)
-			return
-		}
-		to := s[1]
-		payload, err := token.DefaultManager.Verify(to, auth.SecretFunc)
-		if err != nil {
-			openlog.Error("can not parse jwt:" + err.Error())
-			handler.WriteBackErr(ErrNoHeader, status.Status(i.Protocol, status.Unauthorized), cb)
-			return
-		}
-		if i.Ctx != nil {
-			i.Ctx = rbac.NewContext(i.Ctx, payload)
-		}
-		if auth.Authorize != nil {
-			err = auth.Authorize(payload, req)
-			if err != nil {
-				handler.WriteBackErr(ErrNoHeader, status.Status(i.Protocol, status.Unauthorized), cb)
-				return
-			}
-		}
-	} else {
-		openlog.Info("skip auth")
-	}
+	_ = "STUB: not implemented"
 
-	chain.Next(i, cb)
+	//jwt is not initialized, then skip authentication, do not report error
+	return
 }
-func mustAuth(req *http.Request) bool {
-	if auth.MustAuth == nil {
-		return true
-	}
-	return auth.MustAuth(req)
-}
+
+func mustAuth(req *http.Request) bool { _ = "STUB: not implemented"; return false }
+
 func newHandler() handler.Handler {
-	return &Handler{}
+	_ = "STUB: not implemented"
+
+	// Name returns the router string
+	return *new(handler.Handler)
 }
 
-// Name returns the router string
-func (h *Handler) Name() string {
-	return "jwt"
-}
+func (h *Handler) Name() string { _ = "STUB: not implemented"; return "" }
+
 func init() {
 	err := handler.RegisterHandler("jwt", newHandler)
 	if err != nil {

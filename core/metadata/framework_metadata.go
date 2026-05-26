@@ -18,34 +18,13 @@ type Framework struct {
 }
 
 // SetName is to set the framework name
-func (f *Framework) SetName(name string) {
-	if f != nil {
-		f.Name = name
-	}
-}
+func (f *Framework) SetName(name string) { _ = "STUB: not implemented"; return }
 
 // SetVersion to set the version of framework
-func (f *Framework) SetVersion(version string) {
-	if f != nil {
-		f.Version = version
-	}
-}
+func (f *Framework) SetVersion(version string) { _ = "STUB: not implemented"; return }
 
 // SetRegister to register the framework
-func (f *Framework) SetRegister(register string) {
-	if f != nil {
-		f.Register = register
-	}
-}
+func (f *Framework) SetRegister(register string) { _ = "STUB: not implemented"; return }
 
 // NewFramework returns the object of msFramework
-func NewFramework() *Framework {
-	Once.Do(func() {
-		msFramework = new(Framework)
-		msFramework.Name = SdkName
-		msFramework.Version = SdkVersion
-		msFramework.Register = SdkRegistrationComponent
-
-	})
-	return msFramework
-}
+func NewFramework() *Framework { _ = "STUB: not implemented"; return nil }

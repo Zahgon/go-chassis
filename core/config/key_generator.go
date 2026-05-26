@@ -1,7 +1,5 @@
 package config
 
-import "strings"
-
 // constant for hystrix keys
 const (
 	FixedPrefix                       = "cse"
@@ -42,162 +40,108 @@ Hystrix Keys
 
 // GetHystrixSpecificKey get hystrix specific key
 func GetHystrixSpecificKey(namespace, cmd, property string) string {
-	return strings.Join([]string{FixedPrefix, namespace, cmd, property}, ".")
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // GetForceFallbackKey get force fallback key
-func GetForceFallbackKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceFallback, command, PropertyForce)
-}
+func GetForceFallbackKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultForceFallbackKey get default force fallback key
-func GetDefaultForceFallbackKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceFallback, t, PropertyForce)
-}
+func GetDefaultForceFallbackKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetTimeoutKey get timeout key
-func GetTimeoutKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceIsolation, command, PropertyTimeoutInMilliseconds)
-}
+func GetTimeoutKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultTimeoutKey get default timeout key
-func GetDefaultTimeoutKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceIsolation, t, PropertyTimeoutInMilliseconds)
-}
+func GetDefaultTimeoutKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetMaxConcurrentKey get maximum concurrent key
-func GetMaxConcurrentKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceIsolation, command, PropertyMaxConcurrentRequests)
-}
+func GetMaxConcurrentKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultMaxConcurrentKey get default maximum concurrent key
-func GetDefaultMaxConcurrentKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceIsolation, t, PropertyMaxConcurrentRequests)
-}
+func GetDefaultMaxConcurrentKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetErrorPercentThresholdKey get error percentage threshold key
-func GetErrorPercentThresholdKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, command, PropertyErrorThresholdPercentage)
-}
+func GetErrorPercentThresholdKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultErrorPercentThreshold get default error percentage threshold value
-func GetDefaultErrorPercentThreshold(t string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, t, PropertyErrorThresholdPercentage)
-}
+func GetDefaultErrorPercentThreshold(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetRequestVolumeThresholdKey get request volume threshold key
-func GetRequestVolumeThresholdKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, command, PropertyRequestVolumeThreshold)
-}
+func GetRequestVolumeThresholdKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultRequestVolumeThresholdKey get default request volume threshold key
-func GetDefaultRequestVolumeThresholdKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, t, PropertyRequestVolumeThreshold)
-}
+func GetDefaultRequestVolumeThresholdKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetSleepWindowKey get sleep window key
-func GetSleepWindowKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, command, PropertySleepWindowInMilliseconds)
-}
+func GetSleepWindowKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultSleepWindowKey get default sleep window key
-func GetDefaultSleepWindowKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, t, PropertySleepWindowInMilliseconds)
-}
+func GetDefaultSleepWindowKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetForceCloseKey get force close key
-func GetForceCloseKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, command, PropertyForceClosed)
-}
+func GetForceCloseKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultForceCloseKey get default force close key
-func GetDefaultForceCloseKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, t, PropertyForceClosed)
-}
+func GetDefaultForceCloseKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetForceOpenKey get force open key
-func GetForceOpenKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, command, PropertyForceOpen)
-}
+func GetForceOpenKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultForceOpenKey get default force open key
-func GetDefaultForceOpenKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, t, PropertyForceOpen)
-}
+func GetDefaultForceOpenKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetCircuitBreakerEnabledKey get circuit breaker enabled key
-func GetCircuitBreakerEnabledKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, command, PropertyEnabled)
-}
+func GetCircuitBreakerEnabledKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultCircuitBreakerEnabledKey get default circuit breaker enabled key
-func GetDefaultCircuitBreakerEnabledKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceCircuitBreaker, t, PropertyEnabled)
-}
+func GetDefaultCircuitBreakerEnabledKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetFallbackEnabledKey get fallback enabled key
-func GetFallbackEnabledKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceFallback, command, PropertyEnabled)
-}
+func GetFallbackEnabledKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultGetFallbackEnabledKey get default fallback enabled key
-func GetDefaultGetFallbackEnabledKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceFallback, t, PropertyEnabled)
-}
+func GetDefaultGetFallbackEnabledKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetFallbackPolicyKey get fallback policy key
-func GetFallbackPolicyKey(command string) string {
-	return GetHystrixSpecificKey(NamespaceFallbackpolicy, command, PropertyPolicy)
-}
+func GetFallbackPolicyKey(command string) string { _ = "STUB: not implemented"; return "" }
 
 // GetDefaultFallbackPolicyKey get default fallback policy key
-func GetDefaultFallbackPolicyKey(t string) string {
-	return GetHystrixSpecificKey(NamespaceFallbackpolicy, t, PropertyPolicy)
-}
+func GetDefaultFallbackPolicyKey(t string) string { _ = "STUB: not implemented"; return "" }
 
 // GetFilterNamesKey get filer name and key
-func GetFilterNamesKey() string {
-	return strings.Join([]string{FixedPrefix, LoadBalance, "serverListFilters"}, ".")
-}
+func GetFilterNamesKey() string { _ = "STUB: not implemented"; return "" }
 
 // GetFaultInjectionOperationKey get fault injection operation key
 func GetFaultInjectionOperationKey(microServiceName, schema, operation string) string {
-	return strings.Join([]string{FixedPrefix, PropertyGovernance, PropertyConsumer, microServiceName,
-		PropertySchema, schema, PropertyOperations, operation, PropertyPolicy, PropertyFault}, ".")
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // GetFaultInjectionSchemaKey get fault injection schema key
 func GetFaultInjectionSchemaKey(microServiceName, schema string) string {
-	return strings.Join([]string{FixedPrefix, PropertyGovernance, PropertyConsumer, microServiceName,
-		PropertySchema, schema, PropertyPolicy, PropertyFault}, ".")
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // GetFaultInjectionServiceKey get fault injection service key
 func GetFaultInjectionServiceKey(microServiceName string) string {
-	return strings.Join([]string{FixedPrefix, PropertyGovernance, PropertyConsumer, microServiceName, PropertyPolicy, PropertyFault}, ".")
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // GetFaultInjectionGlobalKey get fault injection global key
-func GetFaultInjectionGlobalKey() string {
-	return strings.Join([]string{FixedPrefix, PropertyGovernance, PropertyConsumer, PropertyGlobal, PropertyPolicy, PropertyFault}, ".")
-}
+func GetFaultInjectionGlobalKey() string { _ = "STUB: not implemented"; return "" }
 
 // GetFaultAbortPercentKey get fault abort percentage key
-func GetFaultAbortPercentKey(key, protocol string) string {
-	return strings.Join([]string{key, PropertyProtocol, protocol, PropertyAbort, PropertyPercent}, ".")
-}
+func GetFaultAbortPercentKey(key, protocol string) string { _ = "STUB: not implemented"; return "" }
 
 // GetFaultAbortHTTPStatusKey get fault abort http status key
-func GetFaultAbortHTTPStatusKey(key, protocol string) string {
-	return strings.Join([]string{key, PropertyProtocol, protocol, PropertyAbort, PropertyHTTPStatus}, ".")
-}
+func GetFaultAbortHTTPStatusKey(key, protocol string) string { _ = "STUB: not implemented"; return "" }
 
 // GetFaultDelayPercentKey get fault daley percentage key
-func GetFaultDelayPercentKey(key, protocol string) string {
-	return strings.Join([]string{key, PropertyProtocol, protocol, PropertyDelay, PropertyPercent}, ".")
-}
+func GetFaultDelayPercentKey(key, protocol string) string { _ = "STUB: not implemented"; return "" }
 
 // GetFaultFixedDelayKey get fault fixed delay key
-func GetFaultFixedDelayKey(key, protocol string) string {
-	return strings.Join([]string{key, PropertyProtocol, protocol, PropertyDelay, PropertyFixedDelay}, ".")
-}
+func GetFaultFixedDelayKey(key, protocol string) string { _ = "STUB: not implemented"; return "" }

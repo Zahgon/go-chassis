@@ -16,9 +16,13 @@ It has these top-level messages:
 */
 package employ
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+
+	proto "github.com/golang/protobuf/proto"
+
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -36,24 +40,14 @@ type EmployStruct struct {
 	Phone string `protobuf:"bytes,2,opt,name=phone" json:"phone,omitempty"`
 }
 
-func (m *EmployStruct) Reset()                    { *m = EmployStruct{} }
-func (m *EmployStruct) String() string            { return proto.CompactTextString(m) }
-func (*EmployStruct) ProtoMessage()               {}
-func (*EmployStruct) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (m *EmployStruct) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *EmployStruct) String() string            { _ = "STUB: not implemented"; return "" }
+func (*EmployStruct) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*EmployStruct) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *EmployStruct) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
+func (m *EmployStruct) GetName() string { _ = "STUB: not implemented"; return "" }
 
-func (m *EmployStruct) GetPhone() string {
-	if m != nil {
-		return m.Phone
-	}
-	return ""
-}
+func (m *EmployStruct) GetPhone() string { _ = "STUB: not implemented"; return "" }
 
 type EmployRequest struct {
 	Name       string          `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
@@ -61,55 +55,30 @@ type EmployRequest struct {
 	EmployList []*EmployStruct `protobuf:"bytes,3,rep,name=employList" json:"employList,omitempty"`
 }
 
-func (m *EmployRequest) Reset()                    { *m = EmployRequest{} }
-func (m *EmployRequest) String() string            { return proto.CompactTextString(m) }
-func (*EmployRequest) ProtoMessage()               {}
-func (*EmployRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+func (m *EmployRequest) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *EmployRequest) String() string            { _ = "STUB: not implemented"; return "" }
+func (*EmployRequest) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*EmployRequest) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *EmployRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
+func (m *EmployRequest) GetName() string { _ = "STUB: not implemented"; return "" }
 
-func (m *EmployRequest) GetEmploy() *EmployStruct {
-	if m != nil {
-		return m.Employ
-	}
-	return nil
-}
+func (m *EmployRequest) GetEmploy() *EmployStruct { _ = "STUB: not implemented"; return nil }
 
-func (m *EmployRequest) GetEmployList() []*EmployStruct {
-	if m != nil {
-		return m.EmployList
-	}
-	return nil
-}
+func (m *EmployRequest) GetEmployList() []*EmployStruct { _ = "STUB: not implemented"; return nil }
 
 type EmployResponse struct {
 	Employ     *EmployStruct   `protobuf:"bytes,1,opt,name=employ" json:"employ,omitempty"`
 	EmployList []*EmployStruct `protobuf:"bytes,2,rep,name=employList" json:"employList,omitempty"`
 }
 
-func (m *EmployResponse) Reset()                    { *m = EmployResponse{} }
-func (m *EmployResponse) String() string            { return proto.CompactTextString(m) }
-func (*EmployResponse) ProtoMessage()               {}
-func (*EmployResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+func (m *EmployResponse) Reset()                    { _ = "STUB: not implemented"; return }
+func (m *EmployResponse) String() string            { _ = "STUB: not implemented"; return "" }
+func (*EmployResponse) ProtoMessage()               { _ = "STUB: not implemented"; return }
+func (*EmployResponse) Descriptor() ([]byte, []int) { _ = "STUB: not implemented"; return nil, nil }
 
-func (m *EmployResponse) GetEmploy() *EmployStruct {
-	if m != nil {
-		return m.Employ
-	}
-	return nil
-}
+func (m *EmployResponse) GetEmploy() *EmployStruct { _ = "STUB: not implemented"; return nil }
 
-func (m *EmployResponse) GetEmployList() []*EmployStruct {
-	if m != nil {
-		return m.EmployList
-	}
-	return nil
-}
+func (m *EmployResponse) GetEmployList() []*EmployStruct { _ = "STUB: not implemented"; return nil }
 
 func init() {
 	proto.RegisterType((*EmployStruct)(nil), "employ.EmployStruct")

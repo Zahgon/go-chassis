@@ -22,7 +22,6 @@ package authr
 import (
 	"context"
 	"errors"
-	"fmt"
 )
 
 var defaultAuthenticator Authenticator
@@ -38,10 +37,12 @@ var plugins = make(map[string]newFunc)
 
 // Install install a Plugin
 func Install(name string, f newFunc) {
-	plugins[name] = f
+	_ = "STUB: not implemented"
+
+	// Authenticator can sign a token and authenticate that token
+	return
 }
 
-// Authenticator can sign a token and authenticate that token
 type Authenticator interface {
 	Login(ctx context.Context, user string, password string, opts ...LoginOption) (string, error)
 	Authenticate(ctx context.Context, token string) (interface{}, error)
@@ -49,28 +50,15 @@ type Authenticator interface {
 
 // Login verify a user info and return a token
 func Login(ctx context.Context, user string, password string, opts ...LoginOption) (string, error) {
-	return defaultAuthenticator.Login(ctx, user, password, opts...)
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // Authenticate parse a token and return the claims in that token
 func Authenticate(ctx context.Context, token string) (interface{}, error) {
-	return defaultAuthenticator.Authenticate(ctx, token)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Init initiate this module
-func Init(opts ...Option) error {
-	o := &Options{}
-	for _, opt := range opts {
-		opt(o)
-	}
-	if o.Plugin == "" {
-		o.Plugin = "default"
-	}
-	f, ok := plugins[o.Plugin]
-	if !ok {
-		return fmt.Errorf("plugin is no installed: %s", o.Plugin)
-	}
-	var err error
-	defaultAuthenticator, err = f(o)
-	return err
-}
+func Init(opts ...Option) error { _ = "STUB: not implemented"; return nil }

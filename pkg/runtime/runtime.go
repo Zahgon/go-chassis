@@ -43,6 +43,4 @@ var InstanceStatus string
 var NodeIP string
 
 // Init runtime information
-func Init() error {
-	return nil
-}
+func Init() error { _ = "STUB: not implemented"; return nil }

@@ -20,12 +20,14 @@ type TransportFailure struct {
 
 // Error return error message
 func (e TransportFailure) Error() string {
-	return e.Message
+	_ = "STUB: not implemented"
+
+	// ProtocolClient is a interface to communicate with one kind of ProtocolServer, it is used in transport handler.
+	// this handler orchestrate client implementation.
+	// gRPC protocol client, http protocol client, or you can implement your own.
+	return ""
 }
 
-// ProtocolClient is a interface to communicate with one kind of ProtocolServer, it is used in transport handler.
-// this handler orchestrate client implementation.
-// gRPC protocol client, http protocol client, or you can implement your own.
 type ProtocolClient interface {
 	// TODO use invocation.Response as rsp
 	// Call is the key function you must implement

@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
-	"github.com/go-chassis/go-chassis/v2/pkg/util/tags"
 )
 
 // Options is a struct to stores information about chain name, filters, and their invocation options
@@ -52,25 +51,13 @@ var DefaultOptions = Options{
 // you can specify a handler chain name under "servicecomb.handler.chain.Consumer" in chassis.yaml file.
 // so that you can define different invoker with different handler chain.
 // a handler chain is bind to a invoker instance.
-func ChainName(name string) Option {
-	return func(o *Options) {
-		o.ChainName = name
-	}
-}
+func ChainName(name string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
 // Filters is request option
-func Filters(f []string) Option {
-	return func(o *Options) {
-		o.Filters = f
-	}
-}
+func Filters(f []string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
 // DefaultCallOptions is request option
-func DefaultCallOptions(io InvokeOptions) Option {
-	return func(o *Options) {
-		o.InvocationOptions = io
-	}
-}
+func DefaultCallOptions(io InvokeOptions) Option { _ = "STUB: not implemented"; return *new(Option) }
 
 // Option used by the invoker
 type Option func(*Options)
@@ -79,93 +66,55 @@ type Option func(*Options)
 type InvocationOption func(*InvokeOptions)
 
 // StreamingRequest is request option
-func StreamingRequest() InvocationOption {
-	return func(o *InvokeOptions) {
-		o.Stream = true
-	}
-}
+func StreamingRequest() InvocationOption { _ = "STUB: not implemented"; return *new(InvocationOption) }
 
 // WithoutSD will skip client-side load balancing phase.
 // it means, go chassis can work without service discovery(ike consul, etcd, eureka,kubernetes).
 // use this API, when you don't want to make your micro service depend on a centralized service.
-func WithoutSD() InvocationOption {
-	return func(o *InvokeOptions) {
-		o.DisableSD = true
-	}
-}
+func WithoutSD() InvocationOption { _ = "STUB: not implemented"; return *new(InvocationOption) }
 
 // WithProtocol is a request option
 func WithProtocol(p string) InvocationOption {
-	return func(o *InvokeOptions) {
-		o.Protocol = p
-	}
+	_ = "STUB: not implemented"
+	return *new(InvocationOption)
 }
 
 // WithCheckRedirect is a request option
-func WithCheckRedirect() InvocationOption {
-	return func(o *InvokeOptions) {
-		o.CheckRedirect = func(req *http.Request, via []*http.Request) error {
-			return http.ErrUseLastResponse
-		}
-	}
-}
+func WithCheckRedirect() InvocationOption { _ = "STUB: not implemented"; return *new(InvocationOption) }
 
 // WithStrategy is a request option
 func WithStrategy(s string) InvocationOption {
-	return func(o *InvokeOptions) {
-		o.StrategyFunc = s
-	}
+	_ = "STUB: not implemented"
+	return *new(InvocationOption)
 }
 
 // WithFilters is a request option
 func WithFilters(f ...string) InvocationOption {
-	return func(o *InvokeOptions) {
-		o.Filters = append(o.Filters, f...)
-	}
+	_ = "STUB: not implemented"
+	return *new(InvocationOption)
 }
 
 // WithMetadata is a request option
 func WithMetadata(h map[string]interface{}) InvocationOption {
-	return func(o *InvokeOptions) {
-		o.Metadata = h
-	}
+	_ = "STUB: not implemented"
+	return *new(InvocationOption)
 }
 
 // WithRouteTags is a request option
 func WithRouteTags(t map[string]string) InvocationOption {
-	return func(o *InvokeOptions) {
-		o.RouteTags.Label = utiltags.LabelOfTags(t)
-		o.RouteTags.KV = t
-	}
+	_ = "STUB: not implemented"
+	return *new(InvocationOption)
 }
 
 // getOpts is to get the options
 func getOpts(options ...InvocationOption) InvokeOptions {
-	opts := InvokeOptions{}
-	for _, o := range options {
-		o(&opts)
-	}
-	return opts
+	_ = "STUB: not implemented"
+	return *new(InvokeOptions)
 }
 
 // wrapInvocationWithOpts wrap invocation with options
 func wrapInvocationWithOpts(i *invocation.Invocation, opts InvokeOptions) {
-	if opts.DisableSD { // client side load balancing handler will not work
-		if opts.Port != "" {
-			i.Endpoint = i.MicroServiceName + ":" + opts.Port
-		} else {
-			i.Endpoint = i.MicroServiceName
-		}
-	}
-
-	i.Protocol = opts.Protocol
-	i.Strategy = opts.StrategyFunc
-	i.Filters = opts.Filters
-	i.PortName = opts.Port
-	if opts.Metadata != nil {
-		i.Metadata = opts.Metadata
-	}
-
-	i.RouteTags = opts.RouteTags
-	i.CheckRedirect = opts.CheckRedirect
+	_ = "STUB: not implemented"
+	// client side load balancing handler will not work
+	return
 }

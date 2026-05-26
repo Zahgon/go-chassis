@@ -21,8 +21,6 @@ package quota
 
 import (
 	"errors"
-	"fmt"
-	"github.com/go-chassis/openlog"
 )
 
 // errors
@@ -36,29 +34,10 @@ type newManager func(opts Options) (Manager, error)
 var plugins = make(map[string]newManager)
 
 // Install install quota plugin
-func Install(name string, f newManager) {
-	plugins[name] = f
-	openlog.Info("installed quota plugin: " + name)
-}
+func Install(name string, f newManager) { _ = "STUB: not implemented"; return }
 
 // Init init manager
-func Init(opts Options) error {
-	if opts.Plugin == "" {
-		return nil
-	}
-
-	f, ok := plugins[opts.Plugin]
-	if !ok {
-		return fmt.Errorf("not supported [%s]", opts.Plugin)
-	}
-	var err error
-	defaultManager, err = f(opts)
-	if err != nil {
-		return err
-	}
-	openlog.Info(fmt.Sprintf("quota management system [%s@%s] enabled", opts.Plugin, opts.Endpoint))
-	return nil
-}
+func Init(opts Options) error { _ = "STUB: not implemented"; return nil }
 
 // defaultManager is manage quotas
 var defaultManager Manager
@@ -84,29 +63,8 @@ type Manager interface {
 // PreCreate only check quota usage before creating a resource for a domain(tenant) and project.
 // it will not increase resource usage number after check, you have to increase after resource actually created
 func PreCreate(domain, project, resource string, number int64) error {
-	if defaultManager == nil {
-		openlog.Warn("quota management not available, fallback")
-		return nil
-	}
-	qs, err := defaultManager.GetQuotas(domain, project)
-	if err != nil {
-		openlog.Error(err.Error())
-		return ErrGetFailed
-	}
-	var resourceQuota *Quota
-	for _, q := range qs {
-		if q.ResourceType == resource {
-			resourceQuota = q
-			break
-		}
-	}
-	if resourceQuota == nil {
-		//no limits
-		openlog.Debug("no limits for " + resource)
-		return nil
-	}
-	if number > resourceQuota.Limit-resourceQuota.Used {
-		return ErrReached
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
+
+//no limits

@@ -18,13 +18,10 @@
 package ratelimiter
 
 import (
-	"math"
-
 	"github.com/go-chassis/openlog"
 
 	"github.com/go-chassis/go-chassis/v2/core/handler"
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
-	"github.com/go-chassis/go-chassis/v2/resilience/rate"
 )
 
 func init() {
@@ -39,22 +36,15 @@ type Handler struct{}
 
 // Handle limit request rate according to marker
 func (h *Handler) Handle(chain *handler.Chain, inv *invocation.Invocation, cb invocation.ResponseCallBack) {
-	if inv.GetMark() == "" { // if some user do not use invocation marker feature, then should skip rate limiter
-		chain.Next(inv, cb)
-		return
-	}
-	if rate.GetRateLimiters().TryAccept(inv.GetMark(), math.MaxInt32, math.MaxInt32) {
-		chain.Next(inv, cb)
-		return
-	}
-	r := newErrResponse(inv)
-	cb(r)
+	_ = "STUB: not implemented"
+	return
+	// if some user do not use invocation marker feature, then should skip rate limiter
 }
 
 // Name returns name
-func (h *Handler) Name() string {
-	return Name
-}
+func (h *Handler) Name() string { _ = "STUB: not implemented"; return "" }
+
 func newRateLimiterHandler() handler.Handler {
-	return &Handler{}
+	_ = "STUB: not implemented"
+	return *new(handler.Handler)
 }

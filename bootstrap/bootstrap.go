@@ -1,10 +1,5 @@
 package bootstrap
 
-import (
-	"fmt"
-	"github.com/go-chassis/openlog"
-)
-
 var bootstrapPlugins = make([]*PluginItem, 0)
 
 // PluginItem include name and plugin implementation
@@ -23,24 +18,14 @@ type Func func() error
 
 // Init is a method
 func (b Func) Init() error {
-	return b()
+	_ = "STUB: not implemented"
+
+	// InstallPlugin is a function which installs plugin,
+	// during initiating of go chassis, plugins will be executed
+	return nil
 }
 
-// InstallPlugin is a function which installs plugin,
-// during initiating of go chassis, plugins will be executed
-func InstallPlugin(name string, plugin Plugin) {
-	bootstrapPlugins = append(bootstrapPlugins, &PluginItem{
-		Name:   name,
-		Plugin: plugin,
-	})
-}
+func InstallPlugin(name string, plugin Plugin) { _ = "STUB: not implemented"; return }
 
 // Bootstrap will boot plugins in orders
-func Bootstrap() {
-	for _, bp := range bootstrapPlugins {
-		openlog.Info("Bootstrap " + bp.Name)
-		if err := bp.Plugin.Init(); err != nil {
-			openlog.Error(fmt.Sprintf("Failed to init %s. error [%s]", bp.Name, err.Error()))
-		}
-	}
-}
+func Bootstrap() { _ = "STUB: not implemented"; return }

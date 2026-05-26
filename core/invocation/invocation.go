@@ -4,8 +4,6 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/go-chassis/go-chassis/v2/core/common"
-	"github.com/go-chassis/go-chassis/v2/pkg/runtime"
 	utiltags "github.com/go-chassis/go-chassis/v2/pkg/util/tags"
 )
 
@@ -71,60 +69,28 @@ type Invocation struct {
 }
 
 // GetMark return match rule name that request matches
-func (inv *Invocation) GetMark() string {
-	m, ok := inv.Metadata[MDMark].(string)
-	if ok {
-		return m
-	}
-	return "none"
-}
+func (inv *Invocation) GetMark() string { _ = "STUB: not implemented"; return "" }
 
 // Mark marks a invocation, it means the invocation matches a match rule
 // so that governance rule can be applied to invocation with specific mark
-func (inv *Invocation) Mark(matchRuleName string) {
-	inv.Metadata[MDMark] = matchRuleName
-}
+func (inv *Invocation) Mark(matchRuleName string) { _ = "STUB: not implemented"; return }
 
 // New create invocation, context can not be nil
 // if you don't set ContextHeaderKey, then New will init it
-func New(ctx context.Context) *Invocation {
-	inv := &Invocation{
-		SourceServiceID: runtime.ServiceID,
-		Ctx:             ctx,
-	}
-	if inv.Ctx == nil {
-		inv.Ctx = context.TODO()
-	}
-	if inv.Ctx.Value(common.ContextHeaderKey{}) == nil {
-		inv.Ctx = context.WithValue(inv.Ctx, common.ContextHeaderKey{}, map[string]string{})
-	}
-	inv.Metadata = make(map[string]interface{}, 1)
-	inv.Metadata[MDMark] = "none"
-	return inv
-}
+func New(ctx context.Context) *Invocation { _ = "STUB: not implemented"; return nil }
 
 // SetMetadata local scope data
 func (inv *Invocation) SetMetadata(key string, value interface{}) {
-	if inv.Metadata == nil {
-		inv.Metadata = make(map[string]interface{})
-	}
-	inv.Metadata[key] = value
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetHeader set headers of protocol request, the client and server plugins should use them in protocol headers
 // it is convenience but has lower performance than you use Headers[k]=v, when you have a batch of kv to set
-func (inv *Invocation) SetHeader(k, v string) {
-	m := inv.Ctx.Value(common.ContextHeaderKey{}).(map[string]string)
-	m[k] = v
-}
+func (inv *Invocation) SetHeader(k, v string) { _ = "STUB: not implemented"; return }
 
 // Headers return a map that protocol plugin should deliver in transport
-func (inv *Invocation) Headers() map[string]string {
-	return inv.Ctx.Value(common.ContextHeaderKey{}).(map[string]string)
-}
+func (inv *Invocation) Headers() map[string]string { _ = "STUB: not implemented"; return nil }
 
 // Header return header value
-func (inv *Invocation) Header(name string) string {
-	m := inv.Ctx.Value(common.ContextHeaderKey{}).(map[string]string)
-	return m[name]
-}
+func (inv *Invocation) Header(name string) string { _ = "STUB: not implemented"; return "" }

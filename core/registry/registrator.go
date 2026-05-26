@@ -1,13 +1,8 @@
 package registry
 
 import (
-	"fmt"
-	"strings"
 	"sync"
 	"time"
-
-	"github.com/go-chassis/go-chassis/v2/core/config"
-	"github.com/go-chassis/openlog"
 )
 
 // constant values for registry parameters
@@ -61,156 +56,27 @@ type Registrator interface {
 	AddSchemas(microServiceID, schemaName, schemaInfo string) error
 }
 
-func enableRegistrator(opts Options) error {
-	if config.GetRegistratorDisable() {
-		return nil
-	}
-
-	rt := config.GetRegistratorType()
-	if rt == "" {
-		rt = DefaultRegistratorPlugin
-	}
-	var err error
-	DefaultRegistrator, err = NewRegistrator(rt, opts)
-	if err != nil {
-		return err
-	}
-
-	if err := RegisterService(); err != nil {
-		openlog.Error(fmt.Sprintf("start backoff for register microservice: %s", err))
-		startBackOff(RegisterService)
-	}
-
-	openlog.Info(fmt.Sprintf("enable [%s] registrator.", rt))
-	return nil
-}
+func enableRegistrator(opts Options) error { _ = "STUB: not implemented"; return nil }
 
 // InstallRegistrator install registrator plugin
 func InstallRegistrator(name string, f func(opts Options) Registrator) {
-	registryFunc[name] = f
-	openlog.Info("Installed registry plugin: " + name)
+	_ = "STUB: not implemented"
+	return
 }
 
 // NewRegistrator return registrator
 func NewRegistrator(name string, opts Options) (Registrator, error) {
-	f := registryFunc[name]
-	if f == nil {
-		return nil, fmt.Errorf("no registry plugin: %s", name)
-	}
-	return f(opts), nil
+	_ = "STUB: not implemented"
+	return *new(Registrator), nil
 }
+
 func getSpecifiedOptions() (oR, oSD, oCD Options, err error) {
-	hostsR, schemeR, err := URIs2Hosts(strings.Split(config.GetRegistratorAddress(), ","))
-	if err != nil {
-		return
-	}
-	oR.Addrs = hostsR
-	oR.Version = config.GetRegistratorAPIVersion()
-	oR.TLSConfig, err = getTLSConfig(schemeR, RTag)
-	if err != nil {
-		return
-	}
-	if oR.TLSConfig != nil {
-		oR.EnableSSL = true
-	}
-	hostsSD, schemeSD, err := URIs2Hosts(strings.Split(config.GetServiceDiscoveryAddress(), ","))
-	if err != nil {
-		return
-	}
-	oSD.Addrs = hostsSD
-	oSD.Version = config.GetServiceDiscoveryAPIVersion()
-	oSD.ConfigPath = config.GetServiceDiscoveryConfigPath()
-	oSD.TLSConfig, err = getTLSConfig(schemeSD, SDTag)
-	if err != nil {
-		return
-	}
-	if oSD.TLSConfig != nil {
-		oSD.EnableSSL = true
-	}
-	hostsCD, schemeCD, err := URIs2Hosts(strings.Split(config.GetContractDiscoveryAddress(), ","))
-	if err != nil {
-		return
-	}
-	oCD.Addrs = hostsCD
-	oCD.Version = config.GetContractDiscoveryAPIVersion()
-	oCD.TLSConfig, err = getTLSConfig(schemeCD, CDTag)
-	if err != nil {
-		return
-	}
-	if oCD.TLSConfig != nil {
-		oCD.EnableSSL = true
-	}
-	return
+	_ = "STUB: not implemented"
+	return *new(Options), *new(Options), *new(Options), nil
 }
 
 // Enable create DefaultRegistrator
-func Enable() (err error) {
-	mu.Lock()
-	defer mu.Unlock()
-	if IsEnabled {
-		return
-	}
-
-	var oR, oSD, oCD Options
-	if oR, oSD, oCD, err = getSpecifiedOptions(); err != nil {
-		return err
-	}
-
-	EnableRegistryCache()
-	if err := enableRegistrator(oR); err != nil {
-		return err
-	}
-	if err := enableServiceDiscovery(oSD); err != nil {
-		return err
-	}
-	enableContractDiscovery(oCD)
-
-	openlog.Info("Enabled Registry")
-	IsEnabled = true
-	return nil
-}
+func Enable() (err error) { _ = "STUB: not implemented"; return nil }
 
 // DoRegister for registering micro-service instances
-func DoRegister() error {
-	var (
-		isAutoRegister        bool
-		t                     = config.GetRegistratorAutoRegister()
-		instanceHeartbeatMode = config.GlobalDefinition.ServiceComb.Registry.Heartbeat.Mode
-		interval              = config.GlobalDefinition.ServiceComb.Registry.Heartbeat.Interval
-	)
-	switch instanceHeartbeatMode {
-	case PersistenceHeartBeat:
-		HBService.HeartbeatMode = PersistenceHeartBeat
-	case NonPersistenceHeartBeat:
-		HBService.HeartbeatMode = NonPersistenceHeartBeat
-	default:
-		HBService.HeartbeatMode = NonPersistenceHeartBeat
-	}
-	HBService.Interval = GetDuration(interval, DefaultInterval)
-	if HBService.Interval.Seconds() < MinInterval.Seconds() {
-		openlog.Warn("the heartbeat interval is less than 10s")
-		HBService.Interval = MinInterval
-	}
-	switch t {
-	case "":
-		isAutoRegister = true
-	case Auto:
-		isAutoRegister = true
-	case Manual:
-		isAutoRegister = false
-	default:
-		{
-			tmpErr := fmt.Errorf("parameter incorrect, autoregister: %s", t)
-			openlog.Error(tmpErr.Error())
-			return tmpErr
-		}
-	}
-	if isAutoRegister {
-		if err := RegisterServiceInstances(); err != nil {
-			openlog.Error(fmt.Sprintf("start back off for register microservice instances background: %s", err))
-			go startBackOff(RegisterServiceInstances)
-		}
-	}
-	go HBService.Start()
-	return nil
-}
+func DoRegister() error { _ = "STUB: not implemented"; return nil }

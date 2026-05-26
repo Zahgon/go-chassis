@@ -1,9 +1,5 @@
 package model
 
-import (
-	"gopkg.in/yaml.v2"
-)
-
 // HystrixConfigWrapper hystrix configuration wrapper structure
 type HystrixConfigWrapper struct {
 	HystrixConfig *HystrixConfig `yaml:"cse"`
@@ -131,5 +127,6 @@ var (
 
 // String returns marshalling data of hystrix config wrapper
 func (hc *HystrixConfigWrapper) String() ([]byte, error) {
-	return yaml.Marshal(hc)
+	_ = "STUB: not implemented"
+	return nil, nil
 }

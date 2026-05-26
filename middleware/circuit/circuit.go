@@ -2,12 +2,8 @@ package circuit
 
 import (
 	"errors"
-	"fmt"
+
 	"github.com/go-chassis/go-chassis/v2/core/invocation"
-	"github.com/go-chassis/go-chassis/v2/third_party/forked/afex/hystrix-go/hystrix"
-	"github.com/go-chassis/openlog"
-	"io"
-	"net/http"
 )
 
 const (
@@ -31,112 +27,47 @@ var ErrFallbackNotExists = errors.New("fallback func does not exist")
 type Fallback func(inv *invocation.Invocation, finish chan *invocation.Response) func(error) error
 
 // Init init functions
-func Init() {
-	fallbackFuncMap[ReturnErr] = FallbackErr
-	fallbackFuncMap[ReturnNil] = FallbackNil
-}
+func Init() { _ = "STUB: not implemented"; return }
 
 // RegisterFallback register custom logic
-func RegisterFallback(name string, f Fallback) {
-	fallbackFuncMap[name] = f
-}
+func RegisterFallback(name string, f Fallback) { _ = "STUB: not implemented"; return }
 
 // GetFallback return function
 func GetFallback(name string) (Fallback, error) {
-	f, ok := fallbackFuncMap[name]
-	if !ok {
-		return nil, ErrFallbackNotExists
-	}
-	return f, nil
+	_ = "STUB: not implemented"
+	return *new(Fallback), nil
 }
 
 // FallbackNil return empty response
 func FallbackNil(inv *invocation.Invocation, finish chan *invocation.Response) func(error) error {
-	return func(err error) error {
-		// if err is type of hystrix error, return a new response
-		if err.Error() == hystrix.ErrForceFallback.Error() || err.Error() == hystrix.ErrCircuitOpen.Error() ||
-			err.Error() == hystrix.ErrMaxConcurrency.Error() {
-			// isolation happened, so lead to callback
-			openlog.Error(fmt.Sprintf("fallback for %s:%s:%s, error [%s]",
-				inv.MicroServiceName, inv.SchemaID, inv.OperationID,
-				err.Error()))
-			resp := &invocation.Response{}
-			switch inv.Reply.(type) {
-			case *http.Response:
-				resp := inv.Reply.(*http.Response)
-				resp.StatusCode = http.StatusOK
-				//make sure body is empty
-				if resp.Body != nil {
-					_, err = io.Copy(io.Discard, resp.Body)
-					if err != nil {
-						openlog.Error(err.Error())
-					}
-					err := resp.Body.Close()
-					if err != nil {
-						openlog.Error(err.Error())
-					}
-				}
-			}
-			select {
-			case finish <- resp:
-			default:
-			}
-			return nil //no need to return error
-		}
-		// call back success
-		return nil
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// if err is type of hystrix error, return a new response
+
+// isolation happened, so lead to callback
+
+//make sure body is empty
+
+//no need to return error
+
+// call back success
 
 // FallbackErr set err in response
 func FallbackErr(inv *invocation.Invocation, finish chan *invocation.Response) func(error) error {
-	return func(err error) error {
-		// if err is type of hystrix error, return a new response
-		resp := &invocation.Response{}
-		if err.Error() == hystrix.ErrForceFallback.Error() || err.Error() == hystrix.ErrCircuitOpen.Error() {
-			// isolation happened, so lead to callback
-			openlog.Error(fmt.Sprintf("fallback for %s:%s:%s, error [%s]",
-				inv.MicroServiceName, inv.SchemaID, inv.OperationID,
-				err.Error()))
-			resp.Err = hystrix.CircuitError{
-				Message: fmt.Sprintf("API %s:%s:%s is isolated because of error: %s", inv.MicroServiceName,
-					inv.SchemaID, inv.OperationID, err.Error()),
-			}
-		} else if err.Error() == hystrix.ErrMaxConcurrency.Error() {
-			// isolation happened, so lead to callback
-			openlog.Error(fmt.Sprintf("fallback for %s:%s:%s, error [%s]",
-				inv.MicroServiceName, inv.SchemaID, inv.OperationID,
-				err.Error()))
-			resp.Err = hystrix.CircuitError{
-				Message: fmt.Sprintf("API %s:%s:%s is reject because of error: %s", inv.MicroServiceName,
-					inv.SchemaID, inv.OperationID, err.Error()),
-			}
-
-		} else {
-			//do nothing, just give original error
-			return nil
-		}
-		switch inv.Reply.(type) {
-		case *http.Response:
-			resp := inv.Reply.(*http.Response)
-			resp.StatusCode = http.StatusInternalServerError
-			//make sure body is empty
-			if resp.Body != nil {
-				_, err = io.Copy(io.Discard, resp.Body)
-				if err != nil {
-					openlog.Error(err.Error())
-				}
-				err = resp.Body.Close()
-				if err != nil {
-					openlog.Error(err.Error())
-				}
-			}
-		}
-		select {
-		case finish <- resp:
-		default:
-		}
-		return nil //no need to return error
-
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// if err is type of hystrix error, return a new response
+
+// isolation happened, so lead to callback
+
+// isolation happened, so lead to callback
+
+//do nothing, just give original error
+
+//make sure body is empty
+
+//no need to return error

@@ -14,54 +14,21 @@ type Options struct {
 
 type Option func(opt *Options)
 
-func PoolSize(poolSize int) Option {
-	return func(opt *Options) {
-		opt.PoolSize = poolSize
-	}
-}
+func PoolSize(poolSize int) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func SSLEnabled(sslEnabled bool) Option {
-	return func(opt *Options) {
-		opt.SSLEnabled = sslEnabled
-	}
-}
+func SSLEnabled(sslEnabled bool) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func RootCA(rootCAFile string) Option {
-	return func(opt *Options) {
-		opt.RootCA = rootCAFile
-	}
-}
+func RootCA(rootCAFile string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func Timeout(timeout string) Option {
-	return func(opt *Options) {
-		opt.Timeout = timeout
-	}
-}
+func Timeout(timeout string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func VerifyPeer(verifyPeer bool) Option {
-	return func(opt *Options) {
-		opt.VerifyPeer = verifyPeer
-	}
-}
+func VerifyPeer(verifyPeer bool) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func CertFile(certFile string) Option {
-	return func(opt *Options) {
-		opt.CertFile = certFile
-	}
-}
+func CertFile(certFile string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func KeyFile(keyFile string) Option {
-	return func(opt *Options) {
-		opt.KeyFile = keyFile
-	}
-}
+func KeyFile(keyFile string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
 func NewConfig(uri string, opts ...func(opt *Options)) Options {
-	opt := Options{
-		URI: uri,
-	}
-	for _, option := range opts {
-		option(&opt)
-	}
-	return opt
+	_ = "STUB: not implemented"
+	return *new(Options)
 }
